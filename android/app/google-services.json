@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "578327130121",
+    "project_id": "toadstool-6c816",
+    "storage_bucket": "toadstool-6c816.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578327130121:android:84d23a03bffe6e31c0c8d8",
+        "android_client_info": {
+          "package_name": "com.example.toadstool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578327130121-9ucpq7g18hq0v96ovsocqbs48hcsr9ct.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2SO_xHYt7d3-yZoyFLXxpnrghNs8aph0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578327130121-9ucpq7g18hq0v96ovsocqbs48hcsr9ct.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
