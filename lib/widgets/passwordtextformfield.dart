@@ -12,15 +12,35 @@ class PasswordTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyle(color: Theme.of(context).primaryColor),
       onChanged: onChanged,
       validator: validator,
       obscureText: obserText,
       decoration: InputDecoration(
         hintText: name,
-        hintStyle: TextStyle(
-          color: Theme.of(context).primaryColorDark,
+
+        ////////
+        hintStyle: TextStyle(color: Colors.grey.shade300),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
         ),
-        border: OutlineInputBorder(
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
           borderRadius: BorderRadius.all(
             Radius.circular(20.0),
           ),
@@ -28,8 +48,14 @@ class PasswordTextFormField extends StatelessWidget {
         suffixIcon: GestureDetector(
             onTap: onTap,
             child: obserText
-                ? Icon(Icons.visibility)
-                : Icon(Icons.visibility_off)),
+                ? Icon(
+                    Icons.visibility,
+                    color: Colors.grey.shade200,
+                  )
+                : Icon(
+                    Icons.visibility_off,
+                    color: Colors.grey.shade200,
+                  )),
       ),
     );
   }

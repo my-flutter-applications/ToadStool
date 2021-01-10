@@ -62,11 +62,14 @@ class _LoginState extends State<Login> {
               children: [
                 Text(
                   'Welcome back',
-                  style: TextStyle(fontSize: 38.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 38.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
                 Text(
                   'Sign in to your account',
-                  style: TextStyle(fontSize: 20.0),
+                  style: TextStyle(fontSize: 20.0, color: Colors.white),
                 )
               ],
             ),

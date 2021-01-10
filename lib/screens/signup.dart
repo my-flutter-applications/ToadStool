@@ -168,11 +168,17 @@ class _SignUpState extends State<SignUp> {
                         Text(
                           'Sign up',
                           style: TextStyle(
-                              fontSize: 38.0, fontWeight: FontWeight.bold),
+                            fontSize: 38.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                         Text(
                           'Get your gardening game on!',
-                          style: TextStyle(fontSize: 20.0),
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.white,
+                          ),
                         )
                       ],
                     ),

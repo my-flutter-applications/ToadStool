@@ -11,7 +11,7 @@ class ChangeScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(whichAccount),
+        Text(whichAccount, style: TextStyle(color: Colors.white)),
         SizedBox(
           width: 5.0,
         ),
