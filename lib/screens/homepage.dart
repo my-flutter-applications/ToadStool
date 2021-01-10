@@ -105,6 +105,377 @@ class _HomePageState extends State<HomePage> {
 
   bool aboutColor = false;
 
+  Widget _buildMyDrawer() {
+    return Drawer(
+      child: ListView(
+        children: [
+          UserAccountsDrawerHeader(
+            decoration: BoxDecoration(color: Color(0xff3f3f3f)),
+            accountName: Text(
+              'Supriya Malla',
+              style: TextStyle(color: Colors.white),
+            ),
+            accountEmail: Text(
+              'supriya.malla02@gmail.com',
+              style: TextStyle(color: Colors.white),
+            ),
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: AssetImage('images/roses.jpeg'),
+            ),
+          ),
+          ListTile(
+            selected: homeColor,
+            onTap: () {
+              setState(() {
+                homeColor = true;
+                basketColor = false;
+                mygardenColor = false;
+                accountColor = false;
+                contactusColor = false;
+                aboutColor = false;
+              });
+            },
+            selectedTileColor: Theme.of(context).primaryColorDark,
+            leading: Icon(
+              Icons.home_outlined,
+              color: Theme.of(context).primaryColor,
+              size: 28.0,
+            ),
+            title: Text(
+              'Home',
+              style: TextStyle(fontSize: 16.0, color: Colors.white),
+            ),
+          ),
+          ListTile(
+            selected: basketColor,
+            onTap: () {
+              setState(() {
+                basketColor = true;
+                homeColor = false;
+                mygardenColor = false;
+                accountColor = false;
+                contactusColor = false;
+                aboutColor = false;
+              });
+            },
+            selectedTileColor: Theme.of(context).primaryColorDark,
+            leading: Icon(Icons.shopping_bag_outlined,
+                size: 28.0, color: Theme.of(context).primaryColor),
+            title: Text('Basket',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.white,
+                )),
+          ),
+          ListTile(
+            selected: mygardenColor,
+            onTap: () {
+              setState(() {
+                mygardenColor = true;
+                basketColor = false;
+                homeColor = false;
+                accountColor = false;
+                contactusColor = false;
+                aboutColor = false;
+              });
+            },
+            selectedTileColor: Theme.of(context).primaryColorDark,
+            leading: Icon(Icons.favorite_border_outlined,
+                size: 28.0, color: Theme.of(context).primaryColor),
+            title: Text(
+              'My Garden',
+              style: TextStyle(color: Colors.white, fontSize: 16.0),
+            ),
+          ),
+          ListTile(
+            selected: accountColor,
+            onTap: () {
+              setState(() {
+                accountColor = true;
+                basketColor = false;
+                mygardenColor = false;
+                homeColor = false;
+                contactusColor = false;
+                aboutColor = false;
+              });
+            },
+            selectedTileColor: Theme.of(context).primaryColorDark,
+            leading: Icon(Icons.person_outline,
+                size: 28.0, color: Theme.of(context).primaryColor),
+            title: Text(
+              'Account',
+              style: TextStyle(color: Colors.white, fontSize: 16.0),
+            ),
+          ),
+          ListTile(
+            selected: contactusColor,
+            onTap: () {
+              setState(() {
+                contactusColor = true;
+                basketColor = false;
+                mygardenColor = false;
+                accountColor = false;
+                homeColor = false;
+                aboutColor = false;
+              });
+            },
+            selectedTileColor: Theme.of(context).primaryColorDark,
+            leading: Icon(Icons.phone_outlined,
+                size: 28.0, color: Theme.of(context).primaryColor),
+            title: Text(
+              'Contact us',
+              style: TextStyle(color: Colors.white, fontSize: 16.0),
+            ),
+          ),
+          ListTile(
+            selected: aboutColor,
+            onTap: () {
+              setState(() {
+                aboutColor = true;
+                basketColor = false;
+                mygardenColor = false;
+                accountColor = false;
+                contactusColor = false;
+                homeColor = false;
+              });
+            },
+            selectedTileColor: Theme.of(context).primaryColorDark,
+            leading: Icon(Icons.info,
+                size: 28.0, color: Theme.of(context).primaryColor),
+            title: Text(
+              'About',
+              style: TextStyle(color: Colors.white, fontSize: 16.0),
+            ),
+          ),
+          ListTile(
+            onTap: () {},
+            leading: Icon(Icons.home_outlined,
+                size: 28.0, color: Theme.of(context).primaryColor),
+            title: Text(
+              'Sign Out',
+              style: TextStyle(color: Colors.white, fontSize: 16.0),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCategory() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 18.0),
+      child: Container(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              _buildPlantCategory(
+                  categoryType: 'Annual', color: Color(0xffffc371)),
+              _buildPlantCategory(
+                  categoryType: 'Bulb', color: Color(0xff9AD9DB)),
+              _buildPlantCategory(
+                  categoryType: 'Fruit', color: Color(0xffE4CEE0)),
+              _buildPlantCategory(
+                  categoryType: 'Herbs', color: Color(0xff98D4BB)),
+              // _buildPlantCategory('HousePlant', Color(0xffffc371)),
+              _buildPlantCategory(
+                  categoryType: 'Perennial', color: Color(0xff8DA47E)),
+              _buildPlantCategory(
+                  categoryType: 'Roses', color: Color(0xffC47482)),
+              _buildPlantCategory(
+                  categoryType: 'Shurb', color: Color(0xffB2B2B2)),
+              _buildPlantCategory(
+                  categoryType: 'Tree', color: Color(0xff86736C)),
+              _buildPlantCategory(
+                  categoryType: 'Vegetable', color: Color(0xffF27348)),
+              _buildPlantCategory(
+                  categoryType: 'Vine', color: Color(0xff7C98AB)),
+
+              // _buildPlantCategory('Water Plants', Color(0xffffc371)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeatured() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.05,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Featured',
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => ListPlant(
+                              name: "Featured Plants",
+                            )));
+                  },
+                  child: Text(
+                    'See All',
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          // height: MediaQuery.of(context).size.height * 0.4,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            child: SinglePlant(
+                                name: 'Sunflower',
+                                genus: 'Helianthus annuus',
+                                image: 'sunflower.png'),
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: (context) => DetailScreen(
+                                            name: 'Sunflower',
+                                            genus: 'Helianthus annuus',
+                                            image: 'sunflower.png',
+                                          )));
+                            },
+                          ),
+                          GestureDetector(
+                            child: SinglePlant(
+                                name: 'English Rose',
+                                genus: 'Rosa',
+                                image: 'roses.jpeg'),
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: (context) => DetailScreen(
+                                            name: 'English Rose',
+                                            genus: 'Rosa',
+                                            image: 'roses.jpeg',
+                                          )));
+                            },
+                          ),
+                          GestureDetector(
+                            child: SinglePlant(
+                                name: 'English Rose',
+                                genus: 'Rosa',
+                                image: 'roses.jpeg'),
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: (context) => DetailScreen(
+                                            name: 'English Rose',
+                                            genus: 'Rosa',
+                                            image: 'roses.jpeg',
+                                          )));
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPopular() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.05,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Popular',
+              style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: Row(
+              children: [
+                GestureDetector(
+                  child: _buildPopularPlant(
+                      name: 'Sunflower',
+                      genus: 'Helianthus aunuus',
+                      image: 'sunflower.png'),
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => DetailScreen(
+                              name: 'Sunflower',
+                              genus: 'Helianthus aunnus',
+                              image: 'sunflower.png',
+                            )));
+                  },
+                ),
+                GestureDetector(
+                  child: _buildPopularPlant(
+                      name: 'English Rose', genus: 'Rosa', image: 'roses.jpeg'),
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => DetailScreen(
+                              name: 'English Rose',
+                              genus: 'Rosa',
+                              image: 'roses.jpeg',
+                            )));
+                  },
+                ),
+                GestureDetector(
+                  child: _buildPopularPlant(
+                      name: 'Sunflower',
+                      genus: 'Helianthus aunuus',
+                      image: 'sunflower.png'),
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => DetailScreen(
+                              name: 'English Rose',
+                              genus: 'Rosa',
+                              image: 'roses.jpeg',
+                            )));
+                  },
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   MediaQueryData queryData;
@@ -113,159 +484,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _key,
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(color: Color(0xff3f3f3f)),
-              accountName: Text(
-                'Supriya Malla',
-                style: TextStyle(color: Colors.white),
-              ),
-              accountEmail: Text(
-                'supriya.malla02@gmail.com',
-                style: TextStyle(color: Colors.white),
-              ),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('images/roses.jpeg'),
-              ),
-            ),
-            ListTile(
-              selected: homeColor,
-              onTap: () {
-                setState(() {
-                  homeColor = true;
-                  basketColor = false;
-                  mygardenColor = false;
-                  accountColor = false;
-                  contactusColor = false;
-                  aboutColor = false;
-                });
-              },
-              selectedTileColor: Theme.of(context).primaryColorDark,
-              leading: Icon(
-                Icons.home_outlined,
-                color: Theme.of(context).primaryColor,
-                size: 28.0,
-              ),
-              title: Text(
-                'Home',
-                style: TextStyle(fontSize: 16.0, color: Colors.white),
-              ),
-            ),
-            ListTile(
-              selected: basketColor,
-              onTap: () {
-                setState(() {
-                  basketColor = true;
-                  homeColor = false;
-                  mygardenColor = false;
-                  accountColor = false;
-                  contactusColor = false;
-                  aboutColor = false;
-                });
-              },
-              selectedTileColor: Theme.of(context).primaryColorDark,
-              leading: Icon(Icons.shopping_bag_outlined,
-                  size: 28.0, color: Theme.of(context).primaryColor),
-              title: Text('Basket',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.white,
-                  )),
-            ),
-            ListTile(
-              selected: mygardenColor,
-              onTap: () {
-                setState(() {
-                  mygardenColor = true;
-                  basketColor = false;
-                  homeColor = false;
-                  accountColor = false;
-                  contactusColor = false;
-                  aboutColor = false;
-                });
-              },
-              selectedTileColor: Theme.of(context).primaryColorDark,
-              leading: Icon(Icons.favorite_border_outlined,
-                  size: 28.0, color: Theme.of(context).primaryColor),
-              title: Text(
-                'My Garden',
-                style: TextStyle(color: Colors.white, fontSize: 16.0),
-              ),
-            ),
-            ListTile(
-              selected: accountColor,
-              onTap: () {
-                setState(() {
-                  accountColor = true;
-                  basketColor = false;
-                  mygardenColor = false;
-                  homeColor = false;
-                  contactusColor = false;
-                  aboutColor = false;
-                });
-              },
-              selectedTileColor: Theme.of(context).primaryColorDark,
-              leading: Icon(Icons.person_outline,
-                  size: 28.0, color: Theme.of(context).primaryColor),
-              title: Text(
-                'Account',
-                style: TextStyle(color: Colors.white, fontSize: 16.0),
-              ),
-            ),
-            ListTile(
-              selected: contactusColor,
-              onTap: () {
-                setState(() {
-                  contactusColor = true;
-                  basketColor = false;
-                  mygardenColor = false;
-                  accountColor = false;
-                  homeColor = false;
-                  aboutColor = false;
-                });
-              },
-              selectedTileColor: Theme.of(context).primaryColorDark,
-              leading: Icon(Icons.phone_outlined,
-                  size: 28.0, color: Theme.of(context).primaryColor),
-              title: Text(
-                'Contact us',
-                style: TextStyle(color: Colors.white, fontSize: 16.0),
-              ),
-            ),
-            ListTile(
-              selected: aboutColor,
-              onTap: () {
-                setState(() {
-                  aboutColor = true;
-                  basketColor = false;
-                  mygardenColor = false;
-                  accountColor = false;
-                  contactusColor = false;
-                  homeColor = false;
-                });
-              },
-              selectedTileColor: Theme.of(context).primaryColorDark,
-              leading: Icon(Icons.info,
-                  size: 28.0, color: Theme.of(context).primaryColor),
-              title: Text(
-                'About',
-                style: TextStyle(color: Colors.white, fontSize: 16.0),
-              ),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: Icon(Icons.home_outlined,
-                  size: 28.0, color: Theme.of(context).primaryColor),
-              title: Text(
-                'Sign Out',
-                style: TextStyle(color: Colors.white, fontSize: 16.0),
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: _buildMyDrawer(),
       appBar: AppBar(
         centerTitle: true,
         elevation: 0.0,
@@ -341,221 +560,9 @@ class _HomePageState extends State<HomePage> {
                       )),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 18.0),
-                    child: Container(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            _buildPlantCategory(
-                                categoryType: 'Annual',
-                                color: Color(0xffffc371)),
-                            _buildPlantCategory(
-                                categoryType: 'Bulb', color: Color(0xff9AD9DB)),
-                            _buildPlantCategory(
-                                categoryType: 'Fruit',
-                                color: Color(0xffE4CEE0)),
-                            _buildPlantCategory(
-                                categoryType: 'Herbs',
-                                color: Color(0xff98D4BB)),
-                            // _buildPlantCategory('HousePlant', Color(0xffffc371)),
-                            _buildPlantCategory(
-                                categoryType: 'Perennial',
-                                color: Color(0xff8DA47E)),
-                            _buildPlantCategory(
-                                categoryType: 'Roses',
-                                color: Color(0xffC47482)),
-                            _buildPlantCategory(
-                                categoryType: 'Shurb',
-                                color: Color(0xffB2B2B2)),
-                            _buildPlantCategory(
-                                categoryType: 'Tree', color: Color(0xff86736C)),
-                            _buildPlantCategory(
-                                categoryType: 'Vegetable',
-                                color: Color(0xffF27348)),
-                            _buildPlantCategory(
-                                categoryType: 'Vine', color: Color(0xff7C98AB)),
-
-                            // _buildPlantCategory('Water Plants', Color(0xffffc371)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Featured',
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => ListPlant(
-                                            name: "Featured Plants",
-                                          )));
-                            },
-                            child: Text(
-                              'See All',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    // height: MediaQuery.of(context).size.height * 0.4,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      child: SinglePlant(
-                                          name: 'Sunflower',
-                                          genus: 'Helianthus annuus',
-                                          image: 'sunflower.png'),
-                                      onTap: () {
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DetailScreen(
-                                                      name: 'Sunflower',
-                                                      genus:
-                                                          'Helianthus annuus',
-                                                      image: 'sunflower.png',
-                                                    )));
-                                      },
-                                    ),
-                                    GestureDetector(
-                                      child: SinglePlant(
-                                          name: 'English Rose',
-                                          genus: 'Rosa',
-                                          image: 'roses.jpeg'),
-                                      onTap: () {
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DetailScreen(
-                                                      name: 'English Rose',
-                                                      genus: 'Rosa',
-                                                      image: 'roses.jpeg',
-                                                    )));
-                                      },
-                                    ),
-                                    GestureDetector(
-                                      child: SinglePlant(
-                                          name: 'English Rose',
-                                          genus: 'Rosa',
-                                          image: 'roses.jpeg'),
-                                      onTap: () {
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DetailScreen(
-                                                      name: 'English Rose',
-                                                      genus: 'Rosa',
-                                                      image: 'roses.jpeg',
-                                                    )));
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Popular',
-                        style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            child: _buildPopularPlant(
-                                name: 'Sunflower',
-                                genus: 'Helianthus aunuus',
-                                image: 'sunflower.png'),
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => DetailScreen(
-                                            name: 'Sunflowe',
-                                            genus: 'Helianthus aunnus',
-                                            image: 'sunflower.png',
-                                          )));
-                            },
-                          ),
-                          GestureDetector(
-                            child: _buildPopularPlant(
-                                name: 'English Rose',
-                                genus: 'Rosa',
-                                image: 'roses.jpeg'),
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => DetailScreen(
-                                            name: 'English Rose',
-                                            genus: 'Rosa',
-                                            image: 'roses.jpeg',
-                                          )));
-                            },
-                          ),
-                          GestureDetector(
-                            child: _buildPopularPlant(
-                                name: 'Sunflower',
-                                genus: 'Helianthus aunuus',
-                                image: 'sunflower.png'),
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => DetailScreen(
-                                            name: 'English Rose',
-                                            genus: 'Rosa',
-                                            image: 'roses.jpeg',
-                                          )));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
+                  _buildCategory(),
+                  _buildFeatured(),
+                  _buildPopular(),
                 ],
               ),
             ],
