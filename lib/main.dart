@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:toadstool/screens/basketscreen.dart';
 import 'package:toadstool/screens/detailsscreen.dart';
+import 'package:toadstool/screens/gardenscreen.dart';
 import 'package:toadstool/screens/homepage.dart';
 import 'package:toadstool/screens/listplant.dart';
 import 'screens/signup.dart';
