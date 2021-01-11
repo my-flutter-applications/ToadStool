@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toadstool/screens/basketscreen.dart';
 import 'package:toadstool/screens/homepage.dart';
 import 'package:toadstool/widgets/myTable.dart';
 import 'package:toadstool/widgets/mybutton.dart';
@@ -56,25 +57,25 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(30.0),
-                    ),
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.shopping_bag,
-                      size: 20.0,
-                    ),
-                    color: Colors.white,
-                    onPressed: () {},
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Container(
+              //     decoration: BoxDecoration(
+              //       color: Theme.of(context).primaryColor,
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(30.0),
+              //       ),
+              //     ),
+              //     child: IconButton(
+              //       icon: Icon(
+              //         Icons.shopping_bag,
+              //         size: 20.0,
+              //       ),
+              //       color: Colors.white,
+              //       onPressed: () {},
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -291,8 +292,15 @@ class _DetailScreenState extends State<DetailScreen> {
           height: 50.0,
           width: 390.0,
           child: MyButton(
-            name: 'Plant',
-            onPressed: () {},
+            name: 'Add To Basket',
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => BasketScreen(
+                        name: widget.name,
+                        image: widget.image,
+                        plantType: 'Rose',
+                      )));
+            },
           ),
         ),
       ),
