@@ -5,6 +5,7 @@ import 'package:toadstool/screens/detailsscreen.dart';
 import 'package:toadstool/screens/gardenscreen.dart';
 import 'package:toadstool/screens/homepage.dart';
 import 'package:toadstool/screens/listplant.dart';
+import 'package:toadstool/screens/welcomescreen.dart';
 import 'screens/signup.dart';
 import 'screens/login.dart';
 

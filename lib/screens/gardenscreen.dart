@@ -88,11 +88,11 @@ class _GardenState extends State<Garden> {
                 SizedBox(
                   height: 10.0,
                 ),
-                // Text(widget.quantity.toString(),
-                //     style: TextStyle(
-                //         color: Colors.white,
-                //         fontSize: 20.0,
-                //         fontWeight: FontWeight.bold))
+                Text(widget.quantity.toString(),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold))
               ],
             ),
           ],
