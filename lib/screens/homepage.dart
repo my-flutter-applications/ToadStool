@@ -1,12 +1,39 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:toadstool/screens/detailsscreen.dart';
 import 'package:toadstool/screens/listplant.dart';
 import 'package:toadstool/widgets/singleplant.dart';
+import '../model/plant.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+
+Plant tomatoData;
+// Plant strawberryData;
+// Plant amazonlilyData;
+// Plant potatoData;
+// Plant lemonData;
+Plant englishroseData;
+
+var featureSnapShot;
+var popularSnapShot;
+
+var annual;
+var bulb;
+var fruit;
+var herbs;
+var perennial;
+var roses;
+var shrub;
+var tree;
+var vegetable;
+var vine;
+
+Plant lavenderData;
+Plant raspberryData;
 
 class _HomePageState extends State<HomePage> {
   Widget _buildPlantCategory({String categoryType, Color color}) {
@@ -58,9 +85,10 @@ class _HomePageState extends State<HomePage> {
                   width: 70,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(
-                        "images/$image",
+                      image: NetworkImage(
+                        image,
                       ),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -248,7 +276,9 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+            },
             leading: Icon(Icons.home_outlined,
                 size: 28.0, color: Theme.of(context).primaryColor),
             title: Text(
@@ -269,27 +299,90 @@ class _HomePageState extends State<HomePage> {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              _buildPlantCategory(
-                  categoryType: 'Annual', color: Color(0xffffc371)),
-              _buildPlantCategory(
-                  categoryType: 'Bulb', color: Color(0xff9AD9DB)),
-              _buildPlantCategory(
-                  categoryType: 'Fruit', color: Color(0xffE4CEE0)),
-              _buildPlantCategory(
-                  categoryType: 'Herbs', color: Color(0xff98D4BB)),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => ListPlant(
+                            name: 'Annual',
+                            snapShot: annual,
+                          )));
+                },
+                child: _buildPlantCategory(
+                    categoryType: 'Annual', color: Color(0xffffc371)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => ListPlant()));
+                },
+                child: _buildPlantCategory(
+                    categoryType: 'Bulb', color: Color(0xff9AD9DB)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => ListPlant()));
+                },
+                child: _buildPlantCategory(
+                    categoryType: 'Fruit', color: Color(0xffE4CEE0)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => ListPlant()));
+                },
+                child: _buildPlantCategory(
+                    categoryType: 'Herbs', color: Color(0xff98D4BB)),
+              ),
               // _buildPlantCategory('HousePlant', Color(0xffffc371)),
-              _buildPlantCategory(
-                  categoryType: 'Perennial', color: Color(0xff8DA47E)),
-              _buildPlantCategory(
-                  categoryType: 'Roses', color: Color(0xffC47482)),
-              _buildPlantCategory(
-                  categoryType: 'Shurb', color: Color(0xffB2B2B2)),
-              _buildPlantCategory(
-                  categoryType: 'Tree', color: Color(0xff86736C)),
-              _buildPlantCategory(
-                  categoryType: 'Vegetable', color: Color(0xffF27348)),
-              _buildPlantCategory(
-                  categoryType: 'Vine', color: Color(0xff7C98AB)),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => ListPlant()));
+                },
+                child: _buildPlantCategory(
+                    categoryType: 'Perennial', color: Color(0xff8DA47E)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => ListPlant()));
+                },
+                child: _buildPlantCategory(
+                    categoryType: 'Roses', color: Color(0xffC47482)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => ListPlant()));
+                },
+                child: _buildPlantCategory(
+                    categoryType: 'Shurb', color: Color(0xffB2B2B2)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => ListPlant()));
+                },
+                child: _buildPlantCategory(
+                    categoryType: 'Tree', color: Color(0xff86736C)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => ListPlant()));
+                },
+                child: _buildPlantCategory(
+                    categoryType: 'Vegetable', color: Color(0xffF27348)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => ListPlant()));
+                },
+                child: _buildPlantCategory(
+                    categoryType: 'Vine', color: Color(0xff7C98AB)),
+              ),
 
               // _buildPlantCategory('Water Plants', Color(0xffffc371)),
             ],
@@ -321,6 +414,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => ListPlant(
                               name: "Featured Plants",
+                              snapShot: featureSnapShot,
                             )));
                   },
                   child: Text(
@@ -364,31 +458,31 @@ class _HomePageState extends State<HomePage> {
                           ),
                           GestureDetector(
                             child: SinglePlant(
-                                name: 'English Rose',
-                                genus: 'Rosa',
-                                image: 'roses.jpeg'),
+                                name: englishroseData.name,
+                                genus: englishroseData.genus,
+                                image: englishroseData.image),
                             onTap: () {
                               Navigator.of(context)
                                   .pushReplacement(MaterialPageRoute(
                                       builder: (context) => DetailScreen(
-                                            name: 'English Rose',
-                                            genus: 'Rosa',
-                                            image: 'roses.jpeg',
+                                            name: englishroseData.name,
+                                            genus: englishroseData.genus,
+                                            image: englishroseData.image,
                                           )));
                             },
                           ),
                           GestureDetector(
                             child: SinglePlant(
-                                name: 'English Rose',
-                                genus: 'Rosa',
-                                image: 'roses.jpeg'),
+                                name: tomatoData.name,
+                                genus: tomatoData.genus,
+                                image: tomatoData.image),
                             onTap: () {
                               Navigator.of(context)
                                   .pushReplacement(MaterialPageRoute(
                                       builder: (context) => DetailScreen(
-                                            name: 'English Rose',
-                                            genus: 'Rosa',
-                                            image: 'roses.jpeg',
+                                            name: tomatoData.name,
+                                            genus: tomatoData.genus,
+                                            image: tomatoData.image,
                                           )));
                             },
                           ),
@@ -413,12 +507,33 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             height: MediaQuery.of(context).size.height * 0.05,
             alignment: Alignment.centerLeft,
-            child: Text(
-              'Popular',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Popular',
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => ListPlant(
+                              name: "Popular Plants",
+                              snapShot: popularSnapShot,
+                            )));
+                  },
+                  child: Text(
+                    'See All',
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -430,27 +545,30 @@ class _HomePageState extends State<HomePage> {
               children: [
                 GestureDetector(
                   child: _buildPopularPlant(
-                      name: 'Sunflower',
-                      genus: 'Helianthus aunuus',
-                      image: 'sunflower.png'),
+                      name: lavenderData.name,
+                      genus: lavenderData.genus,
+                      image: lavenderData.image),
                   onTap: () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => DetailScreen(
-                              name: 'Sunflower',
-                              genus: 'Helianthus aunnus',
-                              image: 'sunflower.png',
+                              name: lavenderData.name,
+                              genus: lavenderData.genus,
+                              image: lavenderData.image,
                             )));
                   },
                 ),
                 GestureDetector(
                   child: _buildPopularPlant(
-                      name: 'English Rose', genus: 'Rosa', image: 'roses.jpeg'),
+                    name: raspberryData.name,
+                    genus: raspberryData.genus,
+                    image: raspberryData.image,
+                  ),
                   onTap: () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => DetailScreen(
-                              name: 'English Rose',
-                              genus: 'Rosa',
-                              image: 'roses.jpeg',
+                              name: raspberryData.name,
+                              genus: raspberryData.genus,
+                              image: raspberryData.image,
                             )));
                   },
                 ),
@@ -518,56 +636,140 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 22.0)),
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: 10.0),
-        child: Container(
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15.0),
-                child: Text(
-                  'Browse plants and create your own garden',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextFormField(
-                          decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search, color: Colors.white),
-                        fillColor: Theme.of(context).primaryColorDark,
-                        filled: true,
-                        hintText: 'Search',
-                        hintStyle: TextStyle(color: Colors.white),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(30.0),
+      body: FutureBuilder(
+        future: FirebaseFirestore.instance
+            .collection('plants')
+            .doc('tpPczedvpf1qhxfpH70Z')
+            .collection('featuredplants')
+            .get(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          featureSnapShot = snapshot;
+
+          tomatoData = Plant(
+            image: snapshot.data.documents[0]['image'],
+            name: snapshot.data.documents[0]['name'],
+            genus: snapshot.data.documents[0]['genus'],
+          );
+
+          englishroseData = Plant(
+            image: snapshot.data.documents[5]['image'],
+            name: snapshot.data.documents[5]['name'],
+            genus: snapshot.data.documents[5]['genus'],
+          );
+
+          return FutureBuilder(
+              //
+              future: FirebaseFirestore.instance
+                  .collection('plants')
+                  .doc('tpPczedvpf1qhxfpH70Z')
+                  .collection('popularplants')
+                  .get(),
+              builder: (context, snapShot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                return FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection('category')
+                      .doc('Rc91xFvd6aLv1yDrmG6Q')
+                      .collection('annual')
+                      .get(),
+                  builder: (context, annualSnapshot) {
+                    if (annualSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    // featureSnapShot = snapshot;
+                    popularSnapShot = snapShot;
+
+                    annual = annualSnapshot;
+
+                    lavenderData = Plant(
+                      image: snapShot.data.documents[0]['image'],
+                      name: snapShot.data.documents[0]['name'],
+                      genus: snapShot.data.documents[0]['genus'],
+                    );
+
+                    raspberryData = Plant(
+                      image: snapShot.data.documents[1]['image'],
+                      name: snapShot.data.documents[1]['name'],
+                      genus: snapShot.data.documents[1]['genus'],
+                    );
+                    return Container(
+                      height: double.infinity,
+                      width: double.infinity,
+                      margin: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Container(
+                        child: ListView(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 15.0),
+                              child: Text(
+                                'Browse plants and create your own garden',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 10.0),
+                                    child: TextFormField(
+                                        decoration: InputDecoration(
+                                      prefixIcon: Icon(Icons.search,
+                                          color: Colors.white),
+                                      fillColor:
+                                          Theme.of(context).primaryColorDark,
+                                      filled: true,
+                                      hintText: 'Search',
+                                      hintStyle: TextStyle(color: Colors.white),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.transparent),
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.transparent),
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                      ),
+                                    )),
+                                  ),
+                                ),
+                                _buildCategory(),
+                                _buildFeatured(),
+                                _buildPopular(),
+                              ],
+                            ),
+                          ],
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      )),
-                    ),
-                  ),
-                  _buildCategory(),
-                  _buildFeatured(),
-                  _buildPopular(),
-                ],
-              ),
-            ],
-          ),
-        ),
+                      ),
+                    );
+                  },
+                );
+              });
+        },
       ),
     );
   }

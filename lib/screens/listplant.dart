@@ -4,7 +4,8 @@ import 'package:toadstool/widgets/singleplant.dart';
 
 class ListPlant extends StatelessWidget {
   final String name;
-  ListPlant({this.name});
+  final snapShot;
+  ListPlant({this.name, this.snapShot});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,69 +72,80 @@ class ListPlant extends StatelessWidget {
                 // padding: EdgeInsets.only(bottom: 150.0),
                 height: MediaQuery.of(context).size.height / 1.25,
 
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 14,
-                  // physics: ScrollPhysics(),
-                  // shrinkWrap: true,
-                  childAspectRatio: 0.75,
-                  // scrollDirection: Axis.vertical,
-                  children: [
-                    SinglePlant(
-                        name: 'Sunflower',
-                        genus: 'Helianthus annuus',
-                        image: 'sunflower.png'),
-                    SinglePlant(
-                        name: 'English Rose',
-                        genus: 'Rosa',
-                        image: 'roses.jpeg'),
-                    SinglePlant(
-                      name: 'Sunflower',
-                      genus: 'Helianthus annuus',
-                      image: 'sunflower.png',
-                    ),
-                    SinglePlant(
-                      name: 'Sunflower',
-                      genus: 'Helianthus annuus',
-                      image: 'sunflower.png',
-                    ),
-                    SinglePlant(
-                      name: 'Sunflower',
-                      genus: 'Helianthus annuus',
-                      image: 'sunflower.png',
-                    ),
-                    SinglePlant(
-                      name: 'Sunflower',
-                      genus: 'Helianthus annuus',
-                      image: 'sunflower.png',
-                    ),
-                    SinglePlant(
-                      name: 'Sunflower',
-                      genus: 'Helianthus annuus',
-                      image: 'sunflower.png',
-                    ),
-                    SinglePlant(
-                      name: 'Sunflower',
-                      genus: 'Helianthus annuus',
-                      image: 'sunflower.png',
-                    ),
-                    SinglePlant(
-                      name: 'Sunflower',
-                      genus: 'Helianthus annuus',
-                      image: 'sunflower.png',
-                    ),
-                    SinglePlant(
-                      name: 'Sunflower',
-                      genus: 'Helianthus annuus',
-                      image: 'sunflower.png',
-                    ),
-                    SinglePlant(
-                      name: 'Sunflower',
-                      genus: 'Helianthus annuus',
-                      image: 'sunflower.png',
-                    ),
-                  ],
-                ),
+                child: GridView.builder(
+                    // crossAxisCount: 2,
+                    // mainAxisSpacing: 14,
+
+                    // childAspectRatio: 0.75,
+
+                    // children: [
+                    //   SinglePlant(
+                    //       name: 'Sunflower',
+                    //       genus: 'Helianthus annuus',
+                    //       image: 'sunflower.png'),
+                    //   SinglePlant(
+                    //       name: 'English Rose',
+                    //       genus: 'Rosa',
+                    //       image: 'roses.jpeg'),
+                    //   SinglePlant(
+                    //     name: 'Sunflower',
+                    //     genus: 'Helianthus annuus',
+                    //     image: 'sunflower.png',
+                    //   ),
+                    //   SinglePlant(
+                    //     name: 'Sunflower',
+                    //     genus: 'Helianthus annuus',
+                    //     image: 'sunflower.png',
+                    //   ),
+                    //   SinglePlant(
+                    //     name: 'Sunflower',
+                    //     genus: 'Helianthus annuus',
+                    //     image: 'sunflower.png',
+                    //   ),
+                    //   SinglePlant(
+                    //     name: 'Sunflower',
+                    //     genus: 'Helianthus annuus',
+                    //     image: 'sunflower.png',
+                    //   ),
+                    //   SinglePlant(
+                    //     name: 'Sunflower',
+                    //     genus: 'Helianthus annuus',
+                    //     image: 'sunflower.png',
+                    //   ),
+                    //   SinglePlant(
+                    //     name: 'Sunflower',
+                    //     genus: 'Helianthus annuus',
+                    //     image: 'sunflower.png',
+                    //   ),
+                    //   SinglePlant(
+                    //     name: 'Sunflower',
+                    //     genus: 'Helianthus annuus',
+                    //     image: 'sunflower.png',
+                    //   ),
+                    //   SinglePlant(
+                    //     name: 'Sunflower',
+                    //     genus: 'Helianthus annuus',
+                    //     image: 'sunflower.png',
+                    //   ),
+                    //   SinglePlant(
+                    //     name: 'Sunflower',
+                    //     genus: 'Helianthus annuus',
+                    //     image: 'sunflower.png',
+                    //   ),
+                    // ],
+                    itemCount: snapShot.data.documents.length,
+                    itemBuilder: (context, index) => SinglePlant(
+                          name: snapShot.data.documents[index]['name'],
+                          image: snapShot.data.documents[index]['image'],
+                          genus: snapShot.data.documents[index]['genus'],
+                        ),
+                    scrollDirection: Axis.vertical,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.75,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    )),
               ),
             ],
           ),

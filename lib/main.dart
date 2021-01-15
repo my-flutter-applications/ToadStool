@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:toadstool/provider/category_provider.dart';
+import 'package:toadstool/provider/plant_provider.dart';
 import 'package:toadstool/screens/basketscreen.dart';
 import 'package:toadstool/screens/detailsscreen.dart';
 import 'package:toadstool/screens/gardenscreen.dart';
@@ -33,7 +37,26 @@ class MyApp extends StatelessWidget {
         // iconTheme: IconThemeData(color: Color(0xff5f5f5f)),
         fontFamily: 'Montserrat',
       ),
-      home: HomePage(),
+      home: MultiProvider(
+        providers: [
+          Provider<PlantProvider>(
+            create: (context) => PlantProvider(),
+          ),
+          Provider<CategoryProvider>(
+            create: (context) => CategoryProvider(),
+          ),
+        ],
+        child: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapShot) {
+            if (snapShot.hasData) {
+              return HomePage();
+            } else {
+              return WelcomeScreen();
+            }
+          },
+        ),
+      ),
     );
   }
 }
