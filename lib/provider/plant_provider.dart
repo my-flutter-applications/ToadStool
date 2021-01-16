@@ -26,10 +26,65 @@ class PlantProvider with ChangeNotifier {
     );
 
     featured = newList;
+    notifyListeners();
   }
 
   List<Plant> get getFeaturedList {
     return featured;
+  }
+
+  List<Plant> homeFeatured = [];
+  Plant homeFeaturedData;
+
+  Future<void> getHomeFeaturedData() async {
+    List<Plant> newList = [];
+    QuerySnapshot homeFeaturedSnapShot =
+        await FirebaseFirestore.instance.collection('homefeatured').get();
+
+    homeFeaturedSnapShot.docs.forEach(
+      (element) {
+        homeFeaturedData = Plant(
+          name: element.data()['name'],
+          genus: element.data()['genus'],
+          image: element.data()['image'],
+        );
+        newList.add(homeFeaturedData);
+      },
+    );
+
+    homeFeatured = newList;
+    notifyListeners();
+  }
+
+  List<Plant> get getHomeFeaturedList {
+    return homeFeatured;
+  }
+
+  List<Plant> homePopular = [];
+  Plant homePopularData;
+
+  Future<void> getHomePopularData() async {
+    List<Plant> newList = [];
+    QuerySnapshot homePopularSnapShot =
+        await FirebaseFirestore.instance.collection('homepopular').get();
+
+    homePopularSnapShot.docs.forEach(
+      (element) {
+        homePopularData = Plant(
+          name: element.data()['name'],
+          genus: element.data()['genus'],
+          image: element.data()['image'],
+        );
+        newList.add(homePopularData);
+      },
+    );
+
+    homePopular = newList;
+    notifyListeners();
+  }
+
+  List<Plant> get getHomePopularList {
+    return homePopular;
   }
 
   List<Plant> popular = [];
@@ -55,6 +110,7 @@ class PlantProvider with ChangeNotifier {
     );
 
     popular = newList;
+    notifyListeners();
   }
 
   List<Plant> get getPopularList {

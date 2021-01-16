@@ -53,6 +53,7 @@ class CategoryProvider with ChangeNotifier {
     );
 
     annual = newList;
+    notifyListeners();
   }
 
   List<Plant> get getAnnualList {
@@ -79,6 +80,7 @@ class CategoryProvider with ChangeNotifier {
     );
 
     bulb = newList;
+    notifyListeners();
   }
 
   List<Plant> get getBulbList {
@@ -105,6 +107,7 @@ class CategoryProvider with ChangeNotifier {
     );
 
     fruit = newList;
+    notifyListeners();
   }
 
   List<Plant> get getFruitList {
@@ -131,6 +134,7 @@ class CategoryProvider with ChangeNotifier {
     );
 
     herbs = newList;
+    notifyListeners();
   }
 
   List<Plant> get getHerbsList {
@@ -157,6 +161,7 @@ class CategoryProvider with ChangeNotifier {
     );
 
     perennial = newList;
+    notifyListeners();
   }
 
   List<Plant> get getPerennialList {
@@ -183,6 +188,7 @@ class CategoryProvider with ChangeNotifier {
     );
 
     roses = newList;
+    notifyListeners();
   }
 
   List<Plant> get getRosesList {
@@ -209,6 +215,7 @@ class CategoryProvider with ChangeNotifier {
     );
 
     shrub = newList;
+    notifyListeners();
   }
 
   List<Plant> get getShrubList {
@@ -235,6 +242,7 @@ class CategoryProvider with ChangeNotifier {
     );
 
     tree = newList;
+    notifyListeners();
   }
 
   List<Plant> get getTreeList {
@@ -261,6 +269,7 @@ class CategoryProvider with ChangeNotifier {
     );
 
     vegetable = newList;
+    notifyListeners();
   }
 
   List<Plant> get getVegetableList {
@@ -287,6 +296,7 @@ class CategoryProvider with ChangeNotifier {
     );
 
     vine = newList;
+    notifyListeners();
   }
 
   List<Plant> get getVineList {

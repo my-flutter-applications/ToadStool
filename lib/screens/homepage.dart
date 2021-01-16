@@ -1,8 +1,12 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toadstool/provider/category_provider.dart';
+import 'package:toadstool/provider/plant_provider.dart';
 import 'package:toadstool/screens/detailsscreen.dart';
 import 'package:toadstool/screens/listplant.dart';
 import 'package:toadstool/widgets/singleplant.dart';
@@ -13,7 +17,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-CategoryProvider provider;
+CategoryProvider categoryProvider;
+PlantProvider plantProvider;
 
 Plant tomatoData;
 Plant englishroseData;
@@ -296,16 +301,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCategory() {
-    List<Plant> annuals = provider.getAnnualList;
-    List<Plant> bulb = provider.getBulbList;
-    List<Plant> fruit = provider.getFruitList;
-    List<Plant> herbs = provider.getHerbsList;
-    List<Plant> perennial = provider.getPerennialList;
-    List<Plant> roses = provider.getRosesList;
-    List<Plant> shrub = provider.getShrubList;
-    List<Plant> tree = provider.getTreeList;
-    List<Plant> vegetable = provider.getVegetableList;
-    List<Plant> vine = provider.getVineList;
+    List<Plant> annuals = categoryProvider.getAnnualList;
+    List<Plant> bulb = categoryProvider.getBulbList;
+    List<Plant> fruit = categoryProvider.getFruitList;
+    List<Plant> herbs = categoryProvider.getHerbsList;
+    List<Plant> perennial = categoryProvider.getPerennialList;
+    List<Plant> roses = categoryProvider.getRosesList;
+    List<Plant> shrub = categoryProvider.getShrubList;
+    List<Plant> tree = categoryProvider.getTreeList;
+    List<Plant> vegetable = categoryProvider.getVegetableList;
+    List<Plant> vine = categoryProvider.getVineList;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -417,6 +422,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildFeatured() {
+    List<Plant> featuredPlant;
+    List<Plant> homeFeaturedPlant;
+
+    homeFeaturedPlant = plantProvider.getHomeFeaturedList;
+    featuredPlant = plantProvider.getFeaturedList;
     return Column(
       children: [
         Padding(
@@ -435,7 +445,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ListPlant(
                               name: "Featured Plants",
                               snapShot: featureSnapShot,
@@ -464,54 +474,56 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Container(
                       child: Row(
-                        children: [
-                          GestureDetector(
-                            child: SinglePlant(
-                                name: 'Sunflower',
-                                genus: 'Helianthus annuus',
-                                image: 'sunflower.png'),
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => DetailScreen(
-                                            name: 'Sunflower',
-                                            genus: 'Helianthus annuus',
-                                            image: 'sunflower.png',
-                                          )));
-                            },
-                          ),
-                          GestureDetector(
-                            child: SinglePlant(
-                                name: englishroseData.name,
-                                genus: englishroseData.genus,
-                                image: englishroseData.image),
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => DetailScreen(
-                                            name: englishroseData.name,
-                                            genus: englishroseData.genus,
-                                            image: englishroseData.image,
-                                          )));
-                            },
-                          ),
-                          GestureDetector(
-                            child: SinglePlant(
-                                name: tomatoData.name,
-                                genus: tomatoData.genus,
-                                image: tomatoData.image),
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => DetailScreen(
-                                            name: tomatoData.name,
-                                            genus: tomatoData.genus,
-                                            image: tomatoData.image,
-                                          )));
-                            },
-                          ),
-                        ],
-                      ),
+                          children: homeFeaturedPlant.map((e) {
+                        return Row(
+                          children: [
+                            GestureDetector(
+                              child: SinglePlant(
+                                name: e.name,
+                                genus: e.genus,
+                                image: e.image,
+                              ),
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => DetailScreen(
+                                          name: e.name,
+                                          genus: e.genus,
+                                          image: e.genus,
+                                        )));
+                              },
+                            ),
+                            // GestureDetector(
+                            //   child: SinglePlant(
+                            //       name: e.name, genus: e.genus, image: e.image),
+                            //   onTap: () {
+                            //     Navigator.of(context)
+                            //         .pushReplacement(MaterialPageRoute(
+                            //             builder: (context) => DetailScreen(
+                            //                   name: e.name,
+                            //                   genus: e.genus,
+                            //                   image: e.image,
+                            //                 )));
+                            //   },
+                            // ),
+                            // GestureDetector(
+                            //   child: SinglePlant(
+                            //     name: e.name,
+                            //     genus: e.genus,
+                            //     image: e.image,
+                            //   ),
+                            //   onTap: () {
+                            //     Navigator.of(context)
+                            //         .pushReplacement(MaterialPageRoute(
+                            //             builder: (context) => DetailScreen(
+                            //                   name: e.name,
+                            //                   genus: e.genus,
+                            //                   image: e.image,
+                            //                 )));
+                            //   },
+                            // ),
+                          ],
+                        );
+                      }).toList()),
                     ),
                   ],
                 )
@@ -524,6 +536,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildPopular() {
+    List<Plant> popularPlant = plantProvider.getPopularList;
+
     return Column(
       children: [
         Padding(
@@ -543,7 +557,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ListPlant(
                               name: "Popular Plants",
                               snapShot: popularSnapShot,
@@ -566,51 +580,58 @@ class _HomePageState extends State<HomePage> {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
             child: Row(
-              children: [
-                GestureDetector(
-                  child: _buildPopularPlant(
-                      name: lavenderData.name,
-                      genus: lavenderData.genus,
-                      image: lavenderData.image),
-                  onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => DetailScreen(
-                              name: lavenderData.name,
-                              genus: lavenderData.genus,
-                              image: lavenderData.image,
-                            )));
-                  },
-                ),
-                GestureDetector(
-                  child: _buildPopularPlant(
-                    name: raspberryData.name,
-                    genus: raspberryData.genus,
-                    image: raspberryData.image,
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => DetailScreen(
-                              name: raspberryData.name,
-                              genus: raspberryData.genus,
-                              image: raspberryData.image,
-                            )));
-                  },
-                ),
-                GestureDetector(
-                  child: _buildPopularPlant(
-                      name: 'Sunflower',
-                      genus: 'Helianthus aunuus',
-                      image: 'sunflower.png'),
-                  onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => DetailScreen(
-                              name: 'English Rose',
-                              genus: 'Rosa',
-                              image: 'roses.jpeg',
-                            )));
-                  },
-                ),
-              ],
+              children: plantProvider.getHomePopularList.map((e) {
+                return Row(
+                  children: [
+                    GestureDetector(
+                      child: _buildPopularPlant(
+                        name: e.name,
+                        genus: e.genus,
+                        image: e.image,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => DetailScreen(
+                                  name: e.name,
+                                  genus: e.genus,
+                                  image: e.image,
+                                )));
+                      },
+                    ),
+                  ],
+                );
+              }).toList(),
+
+              // GestureDetector(
+              //   child: _buildPopularPlant(
+              //     name: popularPlant.elementAt(1).name,
+              //     genus: popularPlant.elementAt(1).genus,
+              //     image: popularPlant.elementAt(1).image,
+              //   ),
+              //   onTap: () {
+              //     Navigator.of(context).pushReplacement(MaterialPageRoute(
+              //         builder: (context) => DetailScreen(
+              //               name: popularPlant.elementAt(1).name,
+              //               genus: popularPlant.elementAt(1).genus,
+              //               image: popularPlant.elementAt(1).image,
+              //             )));
+              //   },
+              // ),
+              // GestureDetector(
+              //   child: _buildPopularPlant(
+              //     name: popularPlant.elementAt(2).name,
+              //     genus: popularPlant.elementAt(2).genus,
+              //     image: popularPlant.elementAt(2).image,
+              //   ),
+              //   onTap: () {
+              //     Navigator.of(context).pushReplacement(MaterialPageRoute(
+              //         builder: (context) => DetailScreen(
+              //               name: popularPlant.elementAt(2).name,
+              //               genus: popularPlant.elementAt(2).genus,
+              //               image: popularPlant.elementAt(2).image,
+              //             )));
+              //   },
+              // ),
             ),
           ),
         )
@@ -624,17 +645,23 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    provider = Provider.of<CategoryProvider>(context);
-    provider.getAnnualData();
-    provider.getBulbData();
-    provider.getFruitData();
-    provider.getHerbsData();
-    provider.getPerennialData();
-    provider.getRosesData();
-    provider.getShrubData();
-    provider.getTreeData();
-    provider.getVegetableData();
-    provider.getVineData();
+    categoryProvider = Provider.of<CategoryProvider>(context);
+    categoryProvider.getAnnualData();
+    categoryProvider.getBulbData();
+    categoryProvider.getFruitData();
+    categoryProvider.getHerbsData();
+    categoryProvider.getPerennialData();
+    categoryProvider.getRosesData();
+    categoryProvider.getShrubData();
+    categoryProvider.getTreeData();
+    categoryProvider.getVegetableData();
+    categoryProvider.getVineData();
+
+    plantProvider = Provider.of<PlantProvider>(context);
+    plantProvider.getFeaturedData();
+    plantProvider.getPopularData();
+    plantProvider.getHomeFeaturedData();
+    plantProvider.getHomePopularData();
 
     return Scaffold(
       key: _key,
