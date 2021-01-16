@@ -16,6 +16,7 @@ import 'screens/login.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  Provider.debugCheckInvalidValueType = null;
   runApp(MyApp());
 }
 
@@ -39,11 +40,11 @@ class MyApp extends StatelessWidget {
       ),
       home: MultiProvider(
         providers: [
-          Provider<PlantProvider>(
-            create: (context) => PlantProvider(),
-          ),
-          Provider<CategoryProvider>(
+          ListenableProvider<CategoryProvider>(
             create: (context) => CategoryProvider(),
+          ),
+          ListenableProvider<PlantProvider>(
+            create: (context) => PlantProvider(),
           ),
         ],
         child: StreamBuilder(

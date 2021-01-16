@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:toadstool/provider/category_provider.dart';
 import 'package:toadstool/screens/detailsscreen.dart';
 import 'package:toadstool/screens/listplant.dart';
 import 'package:toadstool/widgets/singleplant.dart';
@@ -11,12 +13,14 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+CategoryProvider provider;
+
 Plant tomatoData;
+Plant englishroseData;
 // Plant strawberryData;
 // Plant amazonlilyData;
 // Plant potatoData;
 // Plant lemonData;
-Plant englishroseData;
 
 var featureSnapShot;
 var popularSnapShot;
@@ -292,6 +296,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCategory() {
+    List<Plant> annuals = provider.getAnnualList;
+    List<Plant> bulb = provider.getBulbList;
+    List<Plant> fruit = provider.getFruitList;
+    List<Plant> herbs = provider.getHerbsList;
+    List<Plant> perennial = provider.getPerennialList;
+    List<Plant> roses = provider.getRosesList;
+    List<Plant> shrub = provider.getShrubList;
+    List<Plant> tree = provider.getTreeList;
+    List<Plant> vegetable = provider.getVegetableList;
+    List<Plant> vine = provider.getVineList;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Container(
@@ -301,10 +316,10 @@ class _HomePageState extends State<HomePage> {
             children: [
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ListPlant(
                             name: 'Annual',
-                            snapShot: annual,
+                            snapShot: annuals,
                           )));
                 },
                 child: _buildPlantCategory(
@@ -312,24 +327,27 @@ class _HomePageState extends State<HomePage> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ListPlant()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ListPlant(name: 'Bulb', snapShot: bulb)));
                 },
                 child: _buildPlantCategory(
                     categoryType: 'Bulb', color: Color(0xff9AD9DB)),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ListPlant()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ListPlant(name: 'Fruit', snapShot: fruit)));
                 },
                 child: _buildPlantCategory(
                     categoryType: 'Fruit', color: Color(0xffE4CEE0)),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ListPlant()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ListPlant(name: 'Herbs', snapShot: herbs)));
                 },
                 child: _buildPlantCategory(
                     categoryType: 'Herbs', color: Color(0xff98D4BB)),
@@ -337,48 +355,54 @@ class _HomePageState extends State<HomePage> {
               // _buildPlantCategory('HousePlant', Color(0xffffc371)),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ListPlant()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ListPlant(name: 'Perennial', snapShot: perennial)));
                 },
                 child: _buildPlantCategory(
                     categoryType: 'Perennial', color: Color(0xff8DA47E)),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ListPlant()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ListPlant(name: 'Roses', snapShot: roses)));
                 },
                 child: _buildPlantCategory(
                     categoryType: 'Roses', color: Color(0xffC47482)),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ListPlant()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ListPlant(name: 'Shrub', snapShot: shrub)));
                 },
                 child: _buildPlantCategory(
                     categoryType: 'Shurb', color: Color(0xffB2B2B2)),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ListPlant()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ListPlant(name: 'Tree', snapShot: tree)));
                 },
                 child: _buildPlantCategory(
                     categoryType: 'Tree', color: Color(0xff86736C)),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ListPlant()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ListPlant(name: 'Vegetable', snapShot: vegetable)));
                 },
                 child: _buildPlantCategory(
                     categoryType: 'Vegetable', color: Color(0xffF27348)),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ListPlant()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ListPlant(name: 'Vine', snapShot: vine)));
                 },
                 child: _buildPlantCategory(
                     categoryType: 'Vine', color: Color(0xff7C98AB)),
@@ -600,6 +624,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of<CategoryProvider>(context);
+    provider.getAnnualData();
+    provider.getBulbData();
+    provider.getFruitData();
+    provider.getHerbsData();
+    provider.getPerennialData();
+    provider.getRosesData();
+    provider.getShrubData();
+    provider.getTreeData();
+    provider.getVegetableData();
+    provider.getVineData();
+
     return Scaffold(
       key: _key,
       drawer: _buildMyDrawer(),
@@ -636,140 +672,56 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 22.0)),
       ),
-      body: FutureBuilder(
-        future: FirebaseFirestore.instance
-            .collection('plants')
-            .doc('tpPczedvpf1qhxfpH70Z')
-            .collection('featuredplants')
-            .get(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          featureSnapShot = snapshot;
-
-          tomatoData = Plant(
-            image: snapshot.data.documents[0]['image'],
-            name: snapshot.data.documents[0]['name'],
-            genus: snapshot.data.documents[0]['genus'],
-          );
-
-          englishroseData = Plant(
-            image: snapshot.data.documents[5]['image'],
-            name: snapshot.data.documents[5]['name'],
-            genus: snapshot.data.documents[5]['genus'],
-          );
-
-          return FutureBuilder(
-              //
-              future: FirebaseFirestore.instance
-                  .collection('plants')
-                  .doc('tpPczedvpf1qhxfpH70Z')
-                  .collection('popularplants')
-                  .get(),
-              builder: (context, snapShot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                return FutureBuilder(
-                  future: FirebaseFirestore.instance
-                      .collection('category')
-                      .doc('Rc91xFvd6aLv1yDrmG6Q')
-                      .collection('annual')
-                      .get(),
-                  builder: (context, annualSnapshot) {
-                    if (annualSnapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-
-                    // featureSnapShot = snapshot;
-                    popularSnapShot = snapShot;
-
-                    annual = annualSnapshot;
-
-                    lavenderData = Plant(
-                      image: snapShot.data.documents[0]['image'],
-                      name: snapShot.data.documents[0]['name'],
-                      genus: snapShot.data.documents[0]['genus'],
-                    );
-
-                    raspberryData = Plant(
-                      image: snapShot.data.documents[1]['image'],
-                      name: snapShot.data.documents[1]['name'],
-                      genus: snapShot.data.documents[1]['genus'],
-                    );
-                    return Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      margin: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Container(
-                        child: ListView(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 15.0),
-                              child: Text(
-                                'Browse plants and create your own garden',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.1,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 10.0),
-                                    child: TextFormField(
-                                        decoration: InputDecoration(
-                                      prefixIcon: Icon(Icons.search,
-                                          color: Colors.white),
-                                      fillColor:
-                                          Theme.of(context).primaryColorDark,
-                                      filled: true,
-                                      hintText: 'Search',
-                                      hintStyle: TextStyle(color: Colors.white),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.transparent),
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.transparent),
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                    )),
-                                  ),
-                                ),
-                                _buildCategory(),
-                                _buildFeatured(),
-                                _buildPopular(),
-                              ],
-                            ),
-                          ],
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        margin: EdgeInsets.symmetric(horizontal: 10.0),
+        child: Container(
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                child: Text(
+                  'Browse plants and create your own garden',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: TextFormField(
+                          decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.search, color: Colors.white),
+                        fillColor: Theme.of(context).primaryColorDark,
+                        filled: true,
+                        hintText: 'Search',
+                        hintStyle: TextStyle(color: Colors.white),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(30.0),
                         ),
-                      ),
-                    );
-                  },
-                );
-              });
-        },
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      )),
+                    ),
+                  ),
+                  _buildCategory(),
+                  _buildFeatured(),
+                  _buildPopular(),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

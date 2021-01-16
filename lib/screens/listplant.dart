@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:toadstool/model/plant.dart';
 import 'package:toadstool/screens/homepage.dart';
 import 'package:toadstool/widgets/singleplant.dart';
 
 class ListPlant extends StatelessWidget {
   final String name;
-  final snapShot;
+  final List<Plant> snapShot;
   ListPlant({this.name, this.snapShot});
   @override
   Widget build(BuildContext context) {
@@ -13,19 +14,20 @@ class ListPlant extends StatelessWidget {
           centerTitle: true,
           elevation: 0.0,
           backgroundColor: Theme.of(context).canvasColor,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => HomePage(),
-                ),
-              );
-            },
-          ),
+          iconTheme: IconThemeData(color: Colors.white),
+          // leading: IconButton(
+          //   icon: Icon(
+          //     Icons.arrow_back,
+          //     color: Colors.white,
+          //   ),
+          //   onPressed: () {
+          //     Navigator.of(context).pushReplacement(
+          //       MaterialPageRoute(
+          //         builder: (context) => HomePage(),
+          //       ),
+          //     );
+          //   },
+          // ),
           actions: [
             IconButton(
               icon: Icon(
@@ -72,80 +74,37 @@ class ListPlant extends StatelessWidget {
                 // padding: EdgeInsets.only(bottom: 150.0),
                 height: MediaQuery.of(context).size.height / 1.25,
 
-                child: GridView.builder(
-                    // crossAxisCount: 2,
-                    // mainAxisSpacing: 14,
+                child: GridView.count(
+                  // crossAxisCount: 2,
+                  // mainAxisSpacing: 14,
 
-                    // childAspectRatio: 0.75,
+                  // childAspectRatio: 0.75,
 
-                    // children: [
-                    //   SinglePlant(
-                    //       name: 'Sunflower',
-                    //       genus: 'Helianthus annuus',
-                    //       image: 'sunflower.png'),
-                    //   SinglePlant(
-                    //       name: 'English Rose',
-                    //       genus: 'Rosa',
-                    //       image: 'roses.jpeg'),
-                    //   SinglePlant(
-                    //     name: 'Sunflower',
-                    //     genus: 'Helianthus annuus',
-                    //     image: 'sunflower.png',
-                    //   ),
-                    //   SinglePlant(
-                    //     name: 'Sunflower',
-                    //     genus: 'Helianthus annuus',
-                    //     image: 'sunflower.png',
-                    //   ),
-                    //   SinglePlant(
-                    //     name: 'Sunflower',
-                    //     genus: 'Helianthus annuus',
-                    //     image: 'sunflower.png',
-                    //   ),
-                    //   SinglePlant(
-                    //     name: 'Sunflower',
-                    //     genus: 'Helianthus annuus',
-                    //     image: 'sunflower.png',
-                    //   ),
-                    //   SinglePlant(
-                    //     name: 'Sunflower',
-                    //     genus: 'Helianthus annuus',
-                    //     image: 'sunflower.png',
-                    //   ),
-                    //   SinglePlant(
-                    //     name: 'Sunflower',
-                    //     genus: 'Helianthus annuus',
-                    //     image: 'sunflower.png',
-                    //   ),
-                    //   SinglePlant(
-                    //     name: 'Sunflower',
-                    //     genus: 'Helianthus annuus',
-                    //     image: 'sunflower.png',
-                    //   ),
-                    //   SinglePlant(
-                    //     name: 'Sunflower',
-                    //     genus: 'Helianthus annuus',
-                    //     image: 'sunflower.png',
-                    //   ),
-                    //   SinglePlant(
-                    //     name: 'Sunflower',
-                    //     genus: 'Helianthus annuus',
-                    //     image: 'sunflower.png',
-                    //   ),
-                    // ],
-                    itemCount: snapShot.data.documents.length,
-                    itemBuilder: (context, index) => SinglePlant(
-                          name: snapShot.data.documents[index]['name'],
-                          image: snapShot.data.documents[index]['image'],
-                          genus: snapShot.data.documents[index]['genus'],
+                  // itemCount: snapShot.data.documents.length,
+                  // itemBuilder: (context, index) => SinglePlant(
+                  //       name: snapShot.data.documents[index]['name'],
+                  //       image: snapShot.data.documents[index]['image'],
+                  //       genus: snapShot.data.documents[index]['genus'],
+                  //     ),
+                  // scrollDirection: Axis.vertical,
+                  // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //   crossAxisCount: 2,
+                  childAspectRatio: 0.8,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 10,
+                  // )
+                  crossAxisCount: 2,
+                  scrollDirection: Axis.vertical,
+                  children: snapShot
+                      .map(
+                        (e) => SinglePlant(
+                          name: e.name,
+                          genus: e.genus,
+                          image: e.image,
                         ),
-                    scrollDirection: Axis.vertical,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.75,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                    )),
+                      )
+                      .toList(),
+                ),
               ),
             ],
           ),

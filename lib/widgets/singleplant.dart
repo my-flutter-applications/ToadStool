@@ -44,7 +44,7 @@ class SinglePlant extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50.0),
+                    borderRadius: BorderRadius.circular(40.0),
                     child: Container(
                       height: 160,
                       width: 160,
