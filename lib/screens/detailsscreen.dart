@@ -1,4 +1,8 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:toadstool/provider/plant_provider.dart';
 import 'package:toadstool/screens/basketscreen.dart';
 import 'package:toadstool/screens/homepage.dart';
 import 'package:toadstool/widgets/myTable.dart';
@@ -15,6 +19,10 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  int count = 1;
+
+  PlantProvider plantProvider;
+
   Widget _buildImage() {
     return Align(
       alignment: Alignment.center,
@@ -284,6 +292,10 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   Widget _buildButtonPart() {
+    // PlantProvider plantProvider;
+
+    // plantProvider = Provider.of<PlantProvider>(context);
+
     return Positioned(
       bottom: 10.0,
       child: Padding(
@@ -294,12 +306,17 @@ class _DetailScreenState extends State<DetailScreen> {
           child: MyButton(
             name: 'Add To Basket',
             onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => BasketScreen(
-                        name: widget.name,
-                        image: widget.image,
-                        plantType: 'Rose',
-                      )));
+              plantProvider.getBasketData(
+                image: widget.image,
+                name: widget.name,
+                genus: widget.genus,
+                quantity: count,
+              );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => BasketScreen(),
+                ),
+              );
             },
           ),
         ),
@@ -309,6 +326,8 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    plantProvider = Provider.of<PlantProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -318,6 +337,8 @@ class _DetailScreenState extends State<DetailScreen> {
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22.0),
         ),
         backgroundColor: Colors.transparent,
+        // iconTheme: IconThemeData(color: Colors.white),
+
         elevation: 0.0,
         leading: IconButton(
           icon: Icon(
@@ -325,8 +346,8 @@ class _DetailScreenState extends State<DetailScreen> {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => HomePage()));
           },
         ),
       ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:toadstool/provider/plant_provider.dart';
 import 'package:toadstool/screens/detailsscreen.dart';
 
 class SinglePlant extends StatelessWidget {
@@ -6,9 +8,13 @@ class SinglePlant extends StatelessWidget {
   final String genus;
   final String image;
 
+  // PlantProvider plantProvider;
+
   SinglePlant({this.name, this.genus, this.image});
   @override
   Widget build(BuildContext context) {
+    // plantProvider = Provider.of<PlantProvider>(context);
+
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(

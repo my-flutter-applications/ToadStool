@@ -448,7 +448,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ListPlant(
                               name: "Featured Plants",
-                              snapShot: featureSnapShot,
+                              snapShot: featuredPlant,
                             )));
                   },
                   child: Text(
@@ -492,35 +492,6 @@ class _HomePageState extends State<HomePage> {
                                         )));
                               },
                             ),
-                            // GestureDetector(
-                            //   child: SinglePlant(
-                            //       name: e.name, genus: e.genus, image: e.image),
-                            //   onTap: () {
-                            //     Navigator.of(context)
-                            //         .pushReplacement(MaterialPageRoute(
-                            //             builder: (context) => DetailScreen(
-                            //                   name: e.name,
-                            //                   genus: e.genus,
-                            //                   image: e.image,
-                            //                 )));
-                            //   },
-                            // ),
-                            // GestureDetector(
-                            //   child: SinglePlant(
-                            //     name: e.name,
-                            //     genus: e.genus,
-                            //     image: e.image,
-                            //   ),
-                            //   onTap: () {
-                            //     Navigator.of(context)
-                            //         .pushReplacement(MaterialPageRoute(
-                            //             builder: (context) => DetailScreen(
-                            //                   name: e.name,
-                            //                   genus: e.genus,
-                            //                   image: e.image,
-                            //                 )));
-                            //   },
-                            // ),
                           ],
                         );
                       }).toList()),
@@ -536,7 +507,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildPopular() {
-    List<Plant> popularPlant = plantProvider.getPopularList;
+    List<Plant> popularPlant;
+    List<Plant> homePopularPlant;
+
+    homePopularPlant = plantProvider.getHomePopularList;
+    popularPlant = plantProvider.getPopularList;
 
     return Column(
       children: [
@@ -560,7 +535,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ListPlant(
                               name: "Popular Plants",
-                              snapShot: popularSnapShot,
+                              snapShot: popularPlant,
                             )));
                   },
                   child: Text(
@@ -580,7 +555,7 @@ class _HomePageState extends State<HomePage> {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
             child: Row(
-              children: plantProvider.getHomePopularList.map((e) {
+              children: homePopularPlant.map((e) {
                 return Row(
                   children: [
                     GestureDetector(
@@ -601,37 +576,6 @@ class _HomePageState extends State<HomePage> {
                   ],
                 );
               }).toList(),
-
-              // GestureDetector(
-              //   child: _buildPopularPlant(
-              //     name: popularPlant.elementAt(1).name,
-              //     genus: popularPlant.elementAt(1).genus,
-              //     image: popularPlant.elementAt(1).image,
-              //   ),
-              //   onTap: () {
-              //     Navigator.of(context).pushReplacement(MaterialPageRoute(
-              //         builder: (context) => DetailScreen(
-              //               name: popularPlant.elementAt(1).name,
-              //               genus: popularPlant.elementAt(1).genus,
-              //               image: popularPlant.elementAt(1).image,
-              //             )));
-              //   },
-              // ),
-              // GestureDetector(
-              //   child: _buildPopularPlant(
-              //     name: popularPlant.elementAt(2).name,
-              //     genus: popularPlant.elementAt(2).genus,
-              //     image: popularPlant.elementAt(2).image,
-              //   ),
-              //   onTap: () {
-              //     Navigator.of(context).pushReplacement(MaterialPageRoute(
-              //         builder: (context) => DetailScreen(
-              //               name: popularPlant.elementAt(2).name,
-              //               genus: popularPlant.elementAt(2).genus,
-              //               image: popularPlant.elementAt(2).image,
-              //             )));
-              //   },
-              // ),
             ),
           ),
         )

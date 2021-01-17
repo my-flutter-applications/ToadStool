@@ -45,8 +45,8 @@ class _GardenState extends State<Garden> {
                   width: 70,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(
-                        "images/${widget.image}",
+                      image: NetworkImage(
+                        widget.image,
                       ),
                     ),
                   ),

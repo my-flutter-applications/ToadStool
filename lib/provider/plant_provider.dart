@@ -1,10 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:toadstool/model/basketmodel.dart';
 import 'package:toadstool/model/plant.dart';
 
 class PlantProvider with ChangeNotifier {
   List<Plant> featured = [];
   Plant featuredData;
+
+  List<BasketModel> basketModelList = [];
+  BasketModel basketModel;
+
+  void getBasketData(
+      {String name, String genus, String image, int quantity, String date}) {
+    basketModel = BasketModel(
+      name: name,
+      genus: genus,
+      image: image,
+      quantity: quantity,
+      date: date,
+    );
+    basketModelList.add(basketModel);
+    // notifyListeners();
+  }
+
+  List<BasketModel> get getBasketModelList {
+    return List.from(basketModelList);
+  }
+
+  int get getBasketModelListLength {
+    return basketModelList.length;
+  }
 
   Future<void> getFeaturedData() async {
     List<Plant> newList = [];
@@ -95,12 +120,12 @@ class PlantProvider with ChangeNotifier {
     QuerySnapshot popularSnapShot = await FirebaseFirestore.instance
         .collection('plants')
         .doc('tpPczedvpf1qhxfpH70Z')
-        .collection('poopularplants')
+        .collection('popularplants')
         .get();
 
     popularSnapShot.docs.forEach(
       (element) {
-        featuredData = Plant(
+        popularData = Plant(
           name: element.data()['name'],
           genus: element.data()['genus'],
           image: element.data()['image'],
