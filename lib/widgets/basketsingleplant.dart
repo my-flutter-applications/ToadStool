@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:toadstool/provider/plant_provider.dart';
+import 'package:toadstool/screens/gardenscreen.dart';
+import 'package:toadstool/widgets/mybutton.dart';
 
 class BasketSinglePlant extends StatefulWidget {
   final String name;
@@ -7,8 +11,13 @@ class BasketSinglePlant extends StatefulWidget {
   final String date;
   final int quantity;
 
-  BasketSinglePlant(
-      {this.name, this.genus, this.image, this.date, this.quantity});
+  BasketSinglePlant({
+    this.name,
+    this.genus,
+    this.image,
+    this.date,
+    this.quantity,
+  });
   @override
   _BasketSinglePlantState createState() => _BasketSinglePlantState();
 }
@@ -29,9 +38,12 @@ getCurrentDate() {
 int count = 1;
 
 class _BasketSinglePlantState extends State<BasketSinglePlant> {
+  PlantProvider plantProvider;
   @override
   Widget build(BuildContext context) {
-    count = widget.quantity;
+    plantProvider = Provider.of<PlantProvider>(context);
+
+    // count = widget.quantity;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0),
       padding: EdgeInsets.symmetric(vertical: 15.0),
@@ -49,8 +61,8 @@ class _BasketSinglePlantState extends State<BasketSinglePlant> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Container(
-                height: 70,
-                width: 70,
+                height: 90,
+                width: 90,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
@@ -111,29 +123,28 @@ class _BasketSinglePlantState extends State<BasketSinglePlant> {
               ),
             ],
           ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 10.0),
-          //   child: SizedBox(
-          //     height: 45,
-          //     width: 100,
-          //     child: MyButton(
-          //       name: 'Plant',
-          //       onPressed: () {
-          //         Navigator.of(context).pushReplacement(
-          //           MaterialPageRoute(
-          //             builder: (context) => Garden(
-          //               name: widget.name,
-          //               image: widget.image,
-          //               plantType: widget.plantType,
-          //               date: getCurrentDate(),
-          //               quantity: count,
-          //             ),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //   ),
-          // ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: SizedBox(
+              height: 45,
+              width: 100,
+              child: MyButton(
+                name: 'Plant',
+                onPressed: () {
+                  plantProvider.getBasketData(
+                    image: widget.image,
+                    name: widget.name,
+                    genus: widget.genus,
+                    quantity: count,
+                    date: getCurrentDate(),
+                  );
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Garden(),
+                  ));
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );

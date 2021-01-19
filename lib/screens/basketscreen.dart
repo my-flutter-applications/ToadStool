@@ -8,11 +8,11 @@ import 'package:toadstool/widgets/mybutton.dart';
 import 'gardenscreen.dart';
 
 class BasketScreen extends StatefulWidget {
-  // final String name;
-  // final String image;
-  // final String plantType;
+  final String name;
+  final String image;
+  final String genus;
 
-  // BasketScreen({this.name, this.image, this.plantType});
+  BasketScreen({this.name, this.image, this.genus});
   @override
   _BasketScreenState createState() => _BasketScreenState();
 }
@@ -42,17 +42,17 @@ class _BasketScreenState extends State<BasketScreen> {
   Widget build(BuildContext context) {
     plantProvider = Provider.of<PlantProvider>(context);
     return Scaffold(
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.0),
-        child: SizedBox(
-          height: 70,
-          width: 100,
-          child: MyButton(
-            name: 'Plant',
-            onPressed: () {},
-          ),
-        ),
-      ),
+      // bottomNavigationBar: Padding(
+      //   padding: const EdgeInsets.symmetric(vertical: 10.0),
+      //   child: SizedBox(
+      //     height: 70,
+      //     width: 100,
+      //     child: MyButton(
+      //       name: 'Plant',
+      //       onPressed: () {},
+      //     ),
+      //   ),
+      // ),
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -67,7 +67,10 @@ class _BasketScreenState extends State<BasketScreen> {
             Icons.arrow_back,
             color: Colors.white,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => HomePage()));
+          },
         ),
         actions: [
           Container(
@@ -95,26 +98,48 @@ class _BasketScreenState extends State<BasketScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
           children: [
-            Container(
-              child: Text(
-                'View the plants in your basket',
-                style: TextStyle(color: Colors.white, fontSize: 20.0),
-              ),
-            ),
-            SizedBox(
-              height: 40.0,
-            ),
-            // _buildSingleCartProduct(),
-            ListView.builder(
-                itemCount: plantProvider.getBasketModelListLength,
-                itemBuilder: (context, index) => BasketSinglePlant(
-                      image: plantProvider.getBasketModelList[index].image,
-                      name: plantProvider.getBasketModelList[index].name,
-                      genus: plantProvider.getBasketModelList[index].genus,
-                    ))
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  child: Text(
+                    'View the plants in your basket',
+                    style: TextStyle(color: Colors.white, fontSize: 20.0),
+                  ),
+                ),
+                SizedBox(
+                  height: 40.0,
+                ),
+                // _buildSingleCartProduct(),
+                // ListView.builder(
+                //     shrinkWrap: true,
+                //     itemCount: plantProvider.getBasketModelListLength,
+                //     itemBuilder: (context, index) {
+                //       return BasketSinglePlant(
+                //         image: plantProvider.getBasketModelList[index].image,
+                //         name: plantProvider.getBasketModelList[index].name,
+
+                //         //////
+                //         genus: plantProvider.getBasketModelList[index].genus,
+                //         // quantity:
+                //         //     plantProvider.getBasketModelList[index].quantity,
+                //         // date: plantProvider.getBasketModelList[index].date,
+                //       );
+                //     })
+                ListView(
+                  shrinkWrap: true,
+                  children: [
+                    BasketSinglePlant(
+                      image: widget.image,
+                      name: widget.name,
+                      genus: widget.genus,
+                    )
+                  ],
+                )
+              ],
+            )
           ],
         ),
       ),

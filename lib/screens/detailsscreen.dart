@@ -306,15 +306,20 @@ class _DetailScreenState extends State<DetailScreen> {
           child: MyButton(
             name: 'Add To Basket',
             onPressed: () {
-              plantProvider.getBasketData(
-                image: widget.image,
-                name: widget.name,
-                genus: widget.genus,
-                quantity: count,
-              );
+              // plantProvider.getBasketData(
+              //   image: widget.image,
+              //   name: widget.name,
+              //   genus: widget.genus,
+              //   quantity: count,
+              // );
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => BasketScreen(),
+                  builder: (context) => BasketScreen(
+                    image: widget.image,
+                    name: widget.name,
+                    genus: widget.genus,
+                    // quantity: count,
+                  ),
                 ),
               );
             },

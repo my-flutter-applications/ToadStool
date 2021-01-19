@@ -4,9 +4,6 @@ import 'package:toadstool/model/basketmodel.dart';
 import 'package:toadstool/model/plant.dart';
 
 class PlantProvider with ChangeNotifier {
-  List<Plant> featured = [];
-  Plant featuredData;
-
   List<BasketModel> basketModelList = [];
   BasketModel basketModel;
 
@@ -30,6 +27,9 @@ class PlantProvider with ChangeNotifier {
   int get getBasketModelListLength {
     return basketModelList.length;
   }
+
+  List<Plant> featured = [];
+  Plant featuredData;
 
   Future<void> getFeaturedData() async {
     List<Plant> newList = [];

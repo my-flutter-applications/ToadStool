@@ -9,6 +9,7 @@ import 'package:toadstool/screens/detailsscreen.dart';
 import 'package:toadstool/screens/gardenscreen.dart';
 import 'package:toadstool/screens/homepage.dart';
 import 'package:toadstool/screens/listplant.dart';
+import 'package:toadstool/screens/profilescreen.dart';
 import 'package:toadstool/screens/welcomescreen.dart';
 import 'screens/signup.dart';
 import 'screens/login.dart';
@@ -47,16 +48,17 @@ class MyApp extends StatelessWidget {
           // iconTheme: IconThemeData(color: Color(0xff5f5f5f)),
           fontFamily: 'Montserrat',
         ),
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapShot) {
-            if (snapShot.hasData) {
-              return HomePage();
-            } else {
-              return WelcomeScreen();
-            }
-          },
-        ),
+        home: ProfileScreen(),
+        //  StreamBuilder(
+        //   stream: FirebaseAuth.instance.authStateChanges(),
+        //   builder: (context, snapShot) {
+        //     if (snapShot.hasData) {
+        //       return HomePage();
+        //     } else {
+        //       return WelcomeScreen();
+        //     }
+        //   },
+        // ),
       ),
     );
   }
