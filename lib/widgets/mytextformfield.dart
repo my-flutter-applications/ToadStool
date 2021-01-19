@@ -5,12 +5,17 @@ class MyTextFormField extends StatelessWidget {
   final String name;
   final Function onChanged;
   final IconData icon;
+  final bool enableEdit;
 
-  MyTextFormField({this.name, this.validator, this.onChanged, this.icon});
+  MyTextFormField(
+      {this.name, this.validator, this.onChanged, this.icon, this.enableEdit});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enableEdit,
+      // focusNode: FocusNode(),
+      // enableInteractiveSelection: false,
       style: TextStyle(
         color: Theme.of(context).primaryColor,
       ),
@@ -22,16 +27,21 @@ class MyTextFormField extends StatelessWidget {
           color: Colors.white,
         ),
         hintText: name,
-        prefix: Padding(
-          padding: EdgeInsets.only(top: 0), // add padding to adjust icon
-          child: Icon(
-            Icons.person,
-            color: Colors.white,
-          ),
-        ),
+        // prefix: Padding(
+        //   padding: EdgeInsets.only(top: 0), // add padding to adjust icon
+        //   child: Icon(
+        //     Icons.person,
+        //     color: Colors.white,
+        //   ),
+        // ),
         hintStyle: TextStyle(
             // color: Theme.of(context).primaryColorDark,
             color: Colors.grey.shade400),
+        disabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.white10,
+          ),
+        ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey.shade300),
           borderRadius: BorderRadius.all(
