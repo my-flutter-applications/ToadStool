@@ -7,8 +7,13 @@ class MyTextFormField extends StatelessWidget {
   final IconData icon;
   final bool enableEdit;
 
-  MyTextFormField(
-      {this.name, this.validator, this.onChanged, this.icon, this.enableEdit});
+  MyTextFormField({
+    this.name,
+    this.validator,
+    this.onChanged,
+    this.icon,
+    this.enableEdit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +29,7 @@ class MyTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         prefixIcon: Icon(
           icon,
-          color: Colors.white,
+          color: Colors.grey.shade400,
         ),
         hintText: name,
         // prefix: Padding(

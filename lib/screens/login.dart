@@ -102,10 +102,12 @@ class _LoginState extends State<Login> {
                       }
                       return '';
                     },
+                    icon: Icons.mail,
                   ),
                   PasswordTextFormField(
                     obserText: obserText,
                     name: 'Password',
+                    icon: Icons.lock,
                     onChanged: (value) {
                       setState(() {
                         password = value;

@@ -48,8 +48,7 @@ class MyApp extends StatelessWidget {
           // iconTheme: IconThemeData(color: Color(0xff5f5f5f)),
           fontFamily: 'Montserrat',
         ),
-        home: ProfileScreen(),
-        //  StreamBuilder(
+        // home: StreamBuilder(
         //   stream: FirebaseAuth.instance.authStateChanges(),
         //   builder: (context, snapShot) {
         //     if (snapShot.hasData) {
@@ -59,20 +58,8 @@ class MyApp extends StatelessWidget {
         //     }
         //   },
         // ),
+        home: HomePage(),
       ),
     );
   }
 }
-// LinearGradient(
-//               begin: Alignment.topRight,
-//               end: Alignment.bottomLeft,
-//               colors: [Color(0xffffc371), Color(0xffff5f6d)]),
-
-//0xff898989
-
-// MultiProvider(
-//         providers: [
-
-//         ],
-//         child:
-//       ),

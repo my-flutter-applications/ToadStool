@@ -23,7 +23,12 @@ class _GardenState extends State<Garden> {
 
   @override
   Widget build(BuildContext context) {
+    int totalPlants = 0;
+
     plantProvider = Provider.of<PlantProvider>(context);
+    plantProvider.getBasketModelList.forEach((element) {
+      totalPlants += element.quantity;
+    });
     return Scaffold(
       bottomNavigationBar: Container(
         height: 70,
@@ -39,7 +44,7 @@ class _GardenState extends State<Garden> {
               ),
             ),
             Text(
-              '2',
+              totalPlants.toString(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -70,6 +75,7 @@ class _GardenState extends State<Garden> {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: ListView(
+          // shrinkWrap: true,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,6 +92,7 @@ class _GardenState extends State<Garden> {
                 ),
                 ListView.builder(
                     shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: plantProvider.getBasketModelListLength,
                     itemBuilder: (context, index) {
                       return Container(

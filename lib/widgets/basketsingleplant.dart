@@ -40,6 +40,11 @@ int count = 1;
 class _BasketSinglePlantState extends State<BasketSinglePlant> {
   PlantProvider plantProvider;
   @override
+  void initState() {
+    super.initState();
+    count = 1;
+  }
+
   Widget build(BuildContext context) {
     plantProvider = Provider.of<PlantProvider>(context);
 
@@ -54,10 +59,10 @@ class _BasketSinglePlantState extends State<BasketSinglePlant> {
           )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0.0),
+            padding: const EdgeInsets.only(left: 5.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Container(
@@ -124,10 +129,10 @@ class _BasketSinglePlantState extends State<BasketSinglePlant> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            padding: const EdgeInsets.only(top: 5.0, right: 5.0),
             child: SizedBox(
-              height: 45,
-              width: 100,
+              height: 42,
+              width: 95,
               child: MyButton(
                 name: 'Plant',
                 onPressed: () {

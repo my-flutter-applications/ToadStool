@@ -6,9 +6,15 @@ class PasswordTextFormField extends StatelessWidget {
   final String name;
   final Function onTap;
   final Function onChanged;
+  final IconData icon;
 
   PasswordTextFormField(
-      {this.obserText, this.validator, this.name, this.onTap, this.onChanged});
+      {this.obserText,
+      this.validator,
+      this.name,
+      this.onTap,
+      this.onChanged,
+      this.icon});
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -18,7 +24,10 @@ class PasswordTextFormField extends StatelessWidget {
       obscureText: obserText,
       decoration: InputDecoration(
         hintText: name,
-
+        prefixIcon: Icon(
+          icon,
+          color: Colors.grey.shade400,
+        ),
         ////////
         hintStyle: TextStyle(color: Colors.grey.shade300),
         enabledBorder: OutlineInputBorder(

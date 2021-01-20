@@ -28,7 +28,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     edit = false;
                   });
                 })
-            : Container(),
+            : IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
         actions: [
           edit == true
               ? IconButton(

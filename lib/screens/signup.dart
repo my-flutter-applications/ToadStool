@@ -55,6 +55,7 @@ class _SignUpState extends State<SignUp> {
       children: [
         MyTextFormField(
           name: 'Username',
+          icon: Icons.person,
           validator: (value) {
             if (value == '') {
               return 'Please Fill Your Username';
@@ -67,6 +68,7 @@ class _SignUpState extends State<SignUp> {
         ),
         MyTextFormField(
           name: 'Email',
+          icon: Icons.mail,
           onChanged: (value) {
             setState(() {
               email = value;
@@ -84,6 +86,7 @@ class _SignUpState extends State<SignUp> {
         PasswordTextFormField(
           obserText: obserText,
           name: 'Password',
+          icon: Icons.lock,
           onChanged: (value) {
             setState(() {
               password = value;
@@ -106,6 +109,7 @@ class _SignUpState extends State<SignUp> {
         ),
         MyTextFormField(
           name: 'Address',
+          icon: Icons.location_city,
           validator: (value) {
             if (value == '') {
               return 'Please fill in your address';

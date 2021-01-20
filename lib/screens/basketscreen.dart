@@ -137,7 +137,19 @@ class _BasketScreenState extends State<BasketScreen> {
                       genus: widget.genus,
                     )
                   ],
-                )
+                ),
+                // ListView.builder(
+                //   shrinkWrap: true,
+                //   physics: NeverScrollableScrollPhysics(),
+                //   itemCount: plantProvider.getBasketModelListLength,
+                //   itemBuilder: (context, index) {
+                //     return BasketSinglePlant(
+                //       image: plantProvider.getBasketModelList[index].image,
+                //       name: plantProvider.getBasketModelList[index].name,
+                //       genus: plantProvider.getBasketModelList[index].genus,
+                //     );
+                //   },
+                // )
               ],
             )
           ],
