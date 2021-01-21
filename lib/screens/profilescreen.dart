@@ -17,9 +17,11 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File _pickedImage;
   PickedFile _image;
-  Future<void> getImage() async {
-    _image = await ImagePicker().getImage(source: ImageSource.camera);
-    _pickedImage = File(_image.path);
+  Future<void> getImage({ImageSource source}) async {
+    _image = await ImagePicker().getImage(source: source);
+    if (_image != null) {
+      _pickedImage = File(_image.path);
+    }
   }
 
   PlantProvider plantProvider;
@@ -60,6 +62,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       }).toList(),
     );
+  }
+
+  Future<void> myDialogBox() {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.camera),
+                    title: Text('Pick From Camera'),
+                    onTap: () {
+                      getImage(source: ImageSource.camera);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.photo_library),
+                    title: Text('Pick From Gallery'),
+                    onTap: () {
+                      getImage(source: ImageSource.gallery);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   Widget _buildTextFormFieldPart() {
@@ -173,25 +207,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 220.0, top: 85.0),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
-                        child: GestureDetector(
-                          onTap: () {
-                            getImage();
-                          },
-                          child: CircleAvatar(
-                            backgroundColor: Theme.of(context).accentColor,
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: Theme.of(context).canvasColor,
+                    edit == true
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.only(left: 220.0, top: 85.0),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              child: GestureDetector(
+                                onTap: () {
+                                  myDialogBox();
+                                },
+                                child: CircleAvatar(
+                                  backgroundColor:
+                                      Theme.of(context).accentColor,
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    )
+                          )
+                        : Container(),
                   ],
                 ),
                 edit == false
@@ -200,18 +238,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(
                   height: 20.0,
                 ),
-                Container(
-                  height: 45.0,
-                  width: 200.0,
-                  child: MyButton(
-                    name: 'Edit Profile',
-                    onPressed: () {
-                      setState(() {
-                        edit = true;
-                      });
-                    },
-                  ),
-                )
+                edit == false
+                    ? Container(
+                        height: 45.0,
+                        width: 200.0,
+                        child: MyButton(
+                          name: 'Edit Profile',
+                          onPressed: () {
+                            setState(() {
+                              edit = true;
+                            });
+                          },
+                        ),
+                      )
+                    : Container(),
               ],
             ),
           ),
