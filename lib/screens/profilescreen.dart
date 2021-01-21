@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toadstool/model/usermodel.dart';
@@ -8,6 +9,7 @@ import 'package:toadstool/widgets/mybutton.dart';
 import 'package:toadstool/widgets/mytextformfield.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -20,8 +22,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> getImage({ImageSource source}) async {
     _image = await ImagePicker().getImage(source: source);
     if (_image != null) {
-      _pickedImage = File(_image.path);
+      setState(() {
+        _pickedImage = File(_image.path);
+      });
     }
+  }
+
+  String imageUrl;
+
+  void _uploadImage({File image}) async {
+    User user = FirebaseAuth.instance.currentUser;
+    Reference storageReference =
+        FirebaseStorage.instance.ref().child('UserImage/${user.uid}');
+    UploadTask uploadTask = storageReference.putFile(image);
+    TaskSnapshot snapshot = await uploadTask;
+    imageUrl = await snapshot.ref.getDownloadURL();
   }
 
   PlantProvider plantProvider;
@@ -171,7 +186,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
+                    _uploadImage(image: _pickedImage);
+                    setState(() {
+                      edit = false;
+                    });
+                    // Navigator.pop(context);
                   })
               : Icon(null)
         ],
@@ -197,9 +216,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           CircleAvatar(
+                            backgroundColor: Colors.white,
                             maxRadius: 65.0,
-                            backgroundImage: NetworkImage(
-                                'https://i.pinimg.com/564x/a8/0e/0c/a80e0c79ac140aafb017b7f4d665abb8.jpg'),
+                            backgroundImage: _pickedImage == null
+                                ? AssetImage('images/user-def.png')
+                                : FileImage(_pickedImage),
                           ),
                           SizedBox(
                             height: 15.0,
