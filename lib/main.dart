@@ -48,17 +48,17 @@ class MyApp extends StatelessWidget {
           // iconTheme: IconThemeData(color: Color(0xff5f5f5f)),
           fontFamily: 'Montserrat',
         ),
-        // home: StreamBuilder(
-        //   stream: FirebaseAuth.instance.authStateChanges(),
-        //   builder: (context, snapShot) {
-        //     if (snapShot.hasData) {
-        //       return HomePage();
-        //     } else {
-        //       return WelcomeScreen();
-        //     }
-        //   },
-        // ),
-        home: HomePage(),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapShot) {
+            if (snapShot.hasData) {
+              return HomePage();
+            } else {
+              return WelcomeScreen();
+            }
+          },
+        ),
+        // home: ProfileScreen(),
       ),
     );
   }

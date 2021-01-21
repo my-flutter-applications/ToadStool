@@ -45,7 +45,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     size: 30.0,
                     color: Colors.white,
                   ),
-                  onPressed: () {})
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
               : Icon(null)
         ],
       ),
@@ -105,7 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             MyTextFormField(
                               enableEdit: false,
-                              name: 'Surpiya Malla',
+                              name: 'Supriya Malla',
                               icon: Icons.person_outline,
                             ),
                             MyTextFormField(
@@ -120,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             MyTextFormField(
                                 enableEdit: false,
-                                name: 'Gender',
+                                name: 'Fusha Village',
                                 icon: Icons.people_outline),
                           ],
                         ),

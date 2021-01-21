@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +24,7 @@ RegExp regExp = new RegExp(p);
 bool obserText = true;
 // String username;
 String email;
-String password;
+String password, userName, address, phoneNumber;
 // String address;
 
 class _SignUpState extends State<SignUp> {
@@ -34,7 +35,13 @@ class _SignUpState extends State<SignUp> {
       try {
         UserCredential result = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
-        print(result.user.uid);
+        FirebaseFirestore.instance.collection('User').doc(result.user.uid).set({
+          'Username': userName,
+          'UserId': result.user.uid,
+          'UserEmail': email,
+          'Address': address,
+          'PhoneNumber': phoneNumber,
+        });
       } catch (e) {
         print(e.message.toString());
         _scaffoldKey.currentState.showSnackBar(
@@ -55,6 +62,11 @@ class _SignUpState extends State<SignUp> {
       children: [
         MyTextFormField(
           name: 'Username',
+          onChanged: (value) {
+            setState(() {
+              userName = value;
+            });
+          },
           icon: Icons.person,
           validator: (value) {
             if (value == '') {
@@ -68,12 +80,12 @@ class _SignUpState extends State<SignUp> {
         ),
         MyTextFormField(
           name: 'Email',
-          icon: Icons.mail,
           onChanged: (value) {
             setState(() {
               email = value;
             });
           },
+          icon: Icons.mail,
           validator: (value) {
             if (value == '') {
               return 'Please Fill Your Email';
@@ -109,10 +121,29 @@ class _SignUpState extends State<SignUp> {
         ),
         MyTextFormField(
           name: 'Address',
+          onChanged: (value) {
+            setState(() {
+              address = value;
+            });
+          },
           icon: Icons.location_city,
           validator: (value) {
             if (value == '') {
               return 'Please fill in your address';
+            }
+          },
+        ),
+        MyTextFormField(
+          name: 'Phone No.',
+          onChanged: (value) {
+            setState(() {
+              phoneNumber = value;
+            });
+          },
+          icon: Icons.phone,
+          validator: (value) {
+            if (value == '') {
+              return 'Please fill in your phone number';
             }
           },
         )
@@ -133,13 +164,16 @@ class _SignUpState extends State<SignUp> {
         SizedBox(
           height: 10.0,
         ),
-        ChangeScreen(
-          name: 'Log In',
-          whichAccount: 'I already have an account',
-          onTap: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Login(),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10.0),
+          child: ChangeScreen(
+            name: 'Log In',
+            whichAccount: 'I already have an account',
+            onTap: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Login(),
+              ),
             ),
           ),
         )
@@ -162,7 +196,7 @@ class _SignUpState extends State<SignUp> {
                 // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                    margin: EdgeInsets.fromLTRB(10, 50, 10, 50),
+                    margin: EdgeInsets.fromLTRB(10, 30, 10, 30),
                     // height: 80,
                     width: double.infinity,
                     child: Column(
@@ -198,14 +232,20 @@ class _SignUpState extends State<SignUp> {
                         // height: 400.0,
                         width: double.infinity,
                         margin: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Wrap(
-                          runSpacing: 20,
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _buildAllTextFormField(),
-                            _buildBottomPart(),
-                            /////
-                          ],
+                        child: SingleChildScrollView(
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                                maxHeight: MediaQuery.of(context).size.height),
+                            child: Wrap(
+                              runSpacing: 20,
+                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                _buildAllTextFormField(),
+                                _buildBottomPart(),
+                                /////
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),
