@@ -6,6 +6,8 @@ import 'package:toadstool/screens/basketscreen.dart';
 import 'package:toadstool/screens/homepage.dart';
 import 'package:toadstool/widgets/mybutton.dart';
 import 'package:toadstool/widgets/mytextformfield.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -13,6 +15,13 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  File _pickedImage;
+  PickedFile _image;
+  Future<void> getImage() async {
+    _image = await ImagePicker().getImage(source: ImageSource.camera);
+    _pickedImage = File(_image.path);
+  }
+
   PlantProvider plantProvider;
   bool edit = false;
 
@@ -169,11 +178,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0)),
-                        child: CircleAvatar(
-                          backgroundColor: Theme.of(context).accentColor,
-                          child: Icon(
-                            Icons.edit,
-                            color: Theme.of(context).canvasColor,
+                        child: GestureDetector(
+                          onTap: () {
+                            getImage();
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Theme.of(context).accentColor,
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: Theme.of(context).canvasColor,
+                            ),
                           ),
                         ),
                       ),
