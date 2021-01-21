@@ -36,7 +36,7 @@ class _SignUpState extends State<SignUp> {
         UserCredential result = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
         FirebaseFirestore.instance.collection('User').doc(result.user.uid).set({
-          'Username': userName,
+          'UserName': userName,
           'UserId': result.user.uid,
           'UserEmail': email,
           'Address': address,

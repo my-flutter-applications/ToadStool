@@ -5,10 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toadstool/model/usermodel.dart';
 import 'package:toadstool/provider/category_provider.dart';
 import 'package:toadstool/provider/plant_provider.dart';
 import 'package:toadstool/screens/detailsscreen.dart';
 import 'package:toadstool/screens/listplant.dart';
+import 'package:toadstool/screens/profilescreen.dart';
 import 'package:toadstool/widgets/singleplant.dart';
 import '../model/plant.dart';
 
@@ -136,30 +138,39 @@ class _HomePageState extends State<HomePage> {
 
   bool mygardenColor = false;
 
-  bool accountColor = false;
+  bool profileColor = false;
 
   bool contactusColor = false;
 
   bool aboutColor = false;
 
+  Widget _buildUserAccountsDrawerHeader() {
+    List<UserModel> userModel = plantProvider.userModelList;
+    return Column(
+      children: userModel.map((e) {
+        return UserAccountsDrawerHeader(
+          decoration: BoxDecoration(color: Color(0xff3f3f3f)),
+          accountName: Text(
+            e.userName,
+            style: TextStyle(color: Colors.white),
+          ),
+          accountEmail: Text(
+            e.userEmail,
+            style: TextStyle(color: Colors.white),
+          ),
+          currentAccountPicture: CircleAvatar(
+            backgroundImage: AssetImage('images/roses.jpeg'),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
   Widget _buildMyDrawer() {
     return Drawer(
       child: ListView(
         children: [
-          UserAccountsDrawerHeader(
-            decoration: BoxDecoration(color: Color(0xff3f3f3f)),
-            accountName: Text(
-              'Supriya Malla',
-              style: TextStyle(color: Colors.white),
-            ),
-            accountEmail: Text(
-              'supriya.malla02@gmail.com',
-              style: TextStyle(color: Colors.white),
-            ),
-            currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage('images/roses.jpeg'),
-            ),
-          ),
+          _buildUserAccountsDrawerHeader(),
           ListTile(
             selected: homeColor,
             onTap: () {
@@ -167,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                 homeColor = true;
                 basketColor = false;
                 mygardenColor = false;
-                accountColor = false;
+                profileColor = false;
                 contactusColor = false;
                 aboutColor = false;
               });
@@ -190,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                 basketColor = true;
                 homeColor = false;
                 mygardenColor = false;
-                accountColor = false;
+                profileColor = false;
                 contactusColor = false;
                 aboutColor = false;
               });
@@ -211,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                 mygardenColor = true;
                 basketColor = false;
                 homeColor = false;
-                accountColor = false;
+                profileColor = false;
                 contactusColor = false;
                 aboutColor = false;
               });
@@ -225,22 +236,24 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           ListTile(
-            selected: accountColor,
+            selected: profileColor,
             onTap: () {
               setState(() {
-                accountColor = true;
+                profileColor = true;
                 basketColor = false;
                 mygardenColor = false;
                 homeColor = false;
                 contactusColor = false;
                 aboutColor = false;
               });
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => ProfileScreen()));
             },
             selectedTileColor: Theme.of(context).primaryColorDark,
             leading: Icon(Icons.person_outline,
                 size: 28.0, color: Theme.of(context).primaryColor),
             title: Text(
-              'Account',
+              'Profile',
               style: TextStyle(color: Colors.white, fontSize: 16.0),
             ),
           ),
@@ -251,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                 contactusColor = true;
                 basketColor = false;
                 mygardenColor = false;
-                accountColor = false;
+                profileColor = false;
                 homeColor = false;
                 aboutColor = false;
               });
@@ -271,7 +284,7 @@ class _HomePageState extends State<HomePage> {
                 aboutColor = true;
                 basketColor = false;
                 mygardenColor = false;
-                accountColor = false;
+                profileColor = false;
                 contactusColor = false;
                 homeColor = false;
               });
@@ -606,6 +619,8 @@ class _HomePageState extends State<HomePage> {
     plantProvider.getPopularData();
     plantProvider.getHomeFeaturedData();
     plantProvider.getHomePopularData();
+
+    plantProvider.getUserData();
 
     return Scaffold(
       key: _key,

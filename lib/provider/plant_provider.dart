@@ -1,11 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:toadstool/model/basketmodel.dart';
 import 'package:toadstool/model/plant.dart';
+import 'package:toadstool/model/usermodel.dart';
 
 class PlantProvider with ChangeNotifier {
   List<BasketModel> basketModelList = [];
   BasketModel basketModel;
+
+  List<UserModel> userModelList = [];
+  UserModel userModel;
+
+  Future<void> getUserData() async {
+    List<UserModel> newList = [];
+    User currentuser = FirebaseAuth.instance.currentUser;
+    QuerySnapshot userSnapShot =
+        await FirebaseFirestore.instance.collection('User').get();
+
+    userSnapShot.docs.forEach(
+      (element) {
+        if (currentuser.uid == element.data()['UserId']) {
+          userModel = UserModel(
+            userName: element.data()['UserName'],
+            userEmail: element.data()['UserEmail'],
+            userAddress: element.data()['Address'],
+            userPhoneNumber: element.data()['PhoneNumber'],
+          );
+          newList.add(userModel);
+        }
+        userModelList = newList;
+      },
+    );
+  }
+
+  List<UserModel> get getUserModelList {
+    return userModelList;
+  }
 
   void getBasketData(
       {String name, String genus, String image, int quantity, String date}) {

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:toadstool/model/usermodel.dart';
+import 'package:toadstool/provider/plant_provider.dart';
+import 'package:toadstool/screens/basketscreen.dart';
+import 'package:toadstool/screens/homepage.dart';
 import 'package:toadstool/widgets/mybutton.dart';
 import 'package:toadstool/widgets/mytextformfield.dart';
 
@@ -8,10 +13,86 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  PlantProvider plantProvider;
   bool edit = false;
+
+  Widget _buildContainerPart() {
+    List<UserModel> userModel = plantProvider.userModelList;
+
+    return Column(
+      children: userModel.map((e) {
+        return Container(
+          height: 350,
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              MyTextFormField(
+                enableEdit: true,
+                name: e.userName,
+                icon: Icons.person_outline,
+              ),
+              MyTextFormField(
+                enableEdit: true,
+                name: e.userEmail,
+                icon: Icons.mail_outline,
+              ),
+              MyTextFormField(
+                enableEdit: true,
+                name: e.userPhoneNumber,
+                icon: Icons.phone_outlined,
+              ),
+              MyTextFormField(
+                  enableEdit: true,
+                  name: e.userAddress,
+                  icon: Icons.people_outline),
+            ],
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildTextFormFieldPart() {
+    List<UserModel> userModel = plantProvider.userModelList;
+
+    return Column(
+      children: userModel.map((e) {
+        return Container(
+          height: 350,
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              MyTextFormField(
+                enableEdit: false,
+                name: e.userName,
+                icon: Icons.person_outline,
+              ),
+              MyTextFormField(
+                enableEdit: false,
+                name: e.userEmail,
+                icon: Icons.mail_outline,
+              ),
+              MyTextFormField(
+                enableEdit: false,
+                name: e.userPhoneNumber,
+                icon: Icons.phone_outlined,
+              ),
+              MyTextFormField(
+                  enableEdit: false,
+                  name: e.userAddress,
+                  icon: Icons.people_outline),
+            ],
+          ),
+        );
+      }).toList(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    plantProvider = Provider.of(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -34,7 +115,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomePage()));
                 },
               ),
         actions: [
@@ -99,62 +181,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
                 edit == false
-                    ? Container(
-                        height: 350,
-                        width: double.infinity,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            MyTextFormField(
-                              enableEdit: false,
-                              name: 'Supriya Malla',
-                              icon: Icons.person_outline,
-                            ),
-                            MyTextFormField(
-                              enableEdit: false,
-                              name: 'supriya.malla02@gmai.com',
-                              icon: Icons.mail_outline,
-                            ),
-                            MyTextFormField(
-                              enableEdit: false,
-                              name: '9841476839',
-                              icon: Icons.phone_outlined,
-                            ),
-                            MyTextFormField(
-                                enableEdit: false,
-                                name: 'Fusha Village',
-                                icon: Icons.people_outline),
-                          ],
-                        ),
-                      )
-                    : Container(
-                        height: 350,
-                        width: double.infinity,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            MyTextFormField(
-                              enableEdit: true,
-                              name: 'Surpiya Malla',
-                              icon: Icons.person_outline,
-                            ),
-                            MyTextFormField(
-                              enableEdit: true,
-                              name: 'supriya.malla02@gmai.com',
-                              icon: Icons.mail_outline,
-                            ),
-                            MyTextFormField(
-                              enableEdit: true,
-                              name: '9841476839',
-                              icon: Icons.phone_outlined,
-                            ),
-                            MyTextFormField(
-                                enableEdit: true,
-                                name: 'Gender',
-                                icon: Icons.people_outline),
-                          ],
-                        ),
-                      ),
+                    ? _buildTextFormFieldPart()
+                    : _buildContainerPart(),
                 SizedBox(
                   height: 20.0,
                 ),
