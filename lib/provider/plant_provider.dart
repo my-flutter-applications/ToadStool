@@ -22,11 +22,11 @@ class PlantProvider with ChangeNotifier {
       (element) {
         if (currentuser.uid == element.data()['UserId']) {
           userModel = UserModel(
-            userName: element.data()['UserName'],
-            userEmail: element.data()['UserEmail'],
-            userAddress: element.data()['Address'],
-            userPhoneNumber: element.data()['PhoneNumber'],
-          );
+              userName: element.data()['UserName'],
+              userEmail: element.data()['UserEmail'],
+              userAddress: element.data()['Address'],
+              userPhoneNumber: element.data()['PhoneNumber'],
+              userImage: element.data()['UserImage']);
           newList.add(userModel);
         }
         userModelList = newList;
@@ -36,6 +36,10 @@ class PlantProvider with ChangeNotifier {
 
   List<UserModel> get getUserModelList {
     return userModelList;
+  }
+
+  void deleteGardenPlant(int index) {
+    basketModelList.removeAt(index);
   }
 
   void getBasketData(

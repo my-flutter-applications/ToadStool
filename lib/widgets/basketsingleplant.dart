@@ -9,15 +9,17 @@ class BasketSinglePlant extends StatefulWidget {
   final String genus;
   final String image;
   final String date;
+  final int index;
+
   final int quantity;
 
-  BasketSinglePlant({
-    this.name,
-    this.genus,
-    this.image,
-    this.date,
-    this.quantity,
-  });
+  BasketSinglePlant(
+      {this.name,
+      this.genus,
+      this.image,
+      this.date,
+      this.quantity,
+      this.index});
   @override
   _BasketSinglePlantState createState() => _BasketSinglePlantState();
 }
@@ -130,24 +132,41 @@ class _BasketSinglePlantState extends State<BasketSinglePlant> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 5.0, right: 5.0),
-            child: SizedBox(
-              height: 42,
-              width: 95,
-              child: MyButton(
-                name: 'Plant',
-                onPressed: () {
-                  plantProvider.getBasketData(
-                    image: widget.image,
-                    name: widget.name,
-                    genus: widget.genus,
-                    quantity: count,
-                    date: getCurrentDate(),
-                  );
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => Garden(),
-                  ));
-                },
-              ),
+            child: Column(
+              children: [
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 50.0, bottom: 10.0),
+                //   child: IconButton(
+                //     icon: Icon(
+                //       Icons.close,
+                //       color: Colors.white,
+                //     ),
+                //     onPressed: () {
+                //        plantProvider
+                //                                     .deleteGardenPlant(index);
+                //     },
+                //   ),
+                // ),
+                SizedBox(
+                  height: 42,
+                  width: 95,
+                  child: MyButton(
+                    name: 'Plant',
+                    onPressed: () {
+                      plantProvider.getBasketData(
+                        image: widget.image,
+                        name: widget.name,
+                        genus: widget.genus,
+                        quantity: count,
+                        date: getCurrentDate(),
+                      );
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Garden(),
+                      ));
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ],

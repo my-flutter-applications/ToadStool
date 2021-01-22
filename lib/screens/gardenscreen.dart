@@ -129,7 +129,7 @@ class _GardenState extends State<Garden> {
                               },
                               child: Container(
                                 margin: EdgeInsets.symmetric(vertical: 10.0),
-                                padding: EdgeInsets.symmetric(vertical: 15.0),
+                                padding: EdgeInsets.symmetric(vertical: 5.0),
                                 decoration: BoxDecoration(
                                     color: Theme.of(context).primaryColorDark,
                                     borderRadius: BorderRadius.all(
@@ -142,7 +142,7 @@ class _GardenState extends State<Garden> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 20.0),
+                                          horizontal: 15.0),
                                       child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(20.0),
@@ -190,29 +190,46 @@ class _GardenState extends State<Garden> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      width: 40.0,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text('Qty',
-                                            style: TextStyle(
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 40.0,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 0.0,
+                                            ),
+                                            child: IconButton(
+                                              icon: Icon(
+                                                Icons.close,
                                                 color: Colors.white,
-                                                fontSize: 15.0,
-                                                fontWeight: FontWeight.bold)),
-                                        SizedBox(
-                                          height: 10.0,
-                                        ),
-                                        Text(
-                                            plantProvider
-                                                .getBasketModelList[index]
-                                                .quantity
-                                                .toString(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold))
-                                      ],
+                                              ),
+                                              onPressed: () {
+                                                plantProvider
+                                                    .deleteGardenPlant(index);
+                                              },
+                                            ),
+                                          ),
+                                          Text('Qty',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15.0,
+                                                  fontWeight: FontWeight.bold)),
+                                          SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          Text(
+                                              plantProvider
+                                                  .getBasketModelList[index]
+                                                  .quantity
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold)),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

@@ -22,28 +22,115 @@ String p =
 
 RegExp regExp = new RegExp(p);
 bool obserText = true;
-// String username;
-String email;
-String password, userName, address, phoneNumber;
-// String address;
+
+final TextEditingController email = TextEditingController();
+final TextEditingController phoneNumber = TextEditingController();
+final TextEditingController userName = TextEditingController();
+final TextEditingController password = TextEditingController();
+final TextEditingController address = TextEditingController();
 
 class _SignUpState extends State<SignUp> {
-  void validation() async {
-    final FormState _form = _formKey.currentState;
+  // void validation() async {
+  //   final FormState _form = _formKey.currentState;
 
-    if (!_form.validate()) {
+  //   if (!_form.validate()) {
+  //     try {
+  //       UserCredential result = await FirebaseAuth.instance
+  //           .createUserWithEmailAndPassword(email: email, password: password);
+  //       FirebaseFirestore.instance.collection('User').doc(result.user.uid).set({
+  //         'UserName': userName,
+  //         'UserId': result.user.uid,
+  //         'UserEmail': email,
+  //         'Address': address,
+  //         'PhoneNumber': phoneNumber,
+  //       });
+  //     } catch (e) {
+  //       print(e.message.toString());
+  //       _scaffoldKey.currentState.showSnackBar(
+  //         SnackBar(
+  //           content: Text(
+  //             e.message,
+  //           ),
+  //           duration: Duration(seconds: 2),
+  //         ),
+  //       );
+  //     }
+  //   } else {}
+  // }
+
+  void validation() async {
+    if (userName.text.isEmpty &&
+        email.text.isEmpty &&
+        password.text.isEmpty &&
+        phoneNumber.text.isEmpty &&
+        address.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('All Fields Are Empty'),
+        ),
+      );
+    } else if (userName.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('Username is Empty'),
+        ),
+      );
+    } else if (userName.text.length < 6) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('Name must consist of 6 letters'),
+        ),
+      );
+    } else if (email.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('Email is Empty'),
+        ),
+      );
+    } else if (!regExp.hasMatch(email.text)) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('Please Try a Valid Email'),
+        ),
+      );
+    } else if (password.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Password Is Empty"),
+        ),
+      );
+    } else if (password.text.length < 8) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Password  Is Too Short"),
+        ),
+      );
+    } else if (address.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Address Is Empty "),
+        ),
+      );
+    } else if (phoneNumber.text.length < 10 || phoneNumber.text.length > 10) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Phone Number Must Be 11 "),
+        ),
+      );
+    } else {
       try {
         UserCredential result = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
+            .createUserWithEmailAndPassword(
+                email: email.text, password: password.text);
         FirebaseFirestore.instance.collection('User').doc(result.user.uid).set({
-          'UserName': userName,
+          'UserName': userName.text,
           'UserId': result.user.uid,
-          'UserEmail': email,
-          'Address': address,
-          'PhoneNumber': phoneNumber,
+          'UserEmail': email.text,
+          'Address': address.text,
+          'PhoneNumber': phoneNumber.text,
         });
       } catch (e) {
-        print(e.message.toString());
+        // print(e.message.toString());
         _scaffoldKey.currentState.showSnackBar(
           SnackBar(
             content: Text(
@@ -53,7 +140,7 @@ class _SignUpState extends State<SignUp> {
           ),
         );
       }
-    } else {}
+    }
   }
 
   Widget _buildAllTextFormField() {
@@ -62,56 +149,62 @@ class _SignUpState extends State<SignUp> {
       children: [
         MyTextFormField(
           name: 'Username',
-          onChanged: (value) {
-            setState(() {
-              userName = value;
-            });
-          },
           icon: Icons.person,
-          validator: (value) {
-            if (value == '') {
-              return 'Please Fill Your Username';
-            } else if (value.length < 6) {
-              return 'Username Is Too Short';
-            }
+          controller: userName,
 
-            return '';
-          },
+          // onChanged: (value) {
+          //   setState(() {
+          //     userName = value;
+          //   });
+          // },
+          // validator: (value) {
+          //   if (value == '') {
+          //     return 'Please Fill Your Username';
+          //   } else if (value.length < 6) {
+          //     return 'Username Is Too Short';
+          //   }
+
+          //   return '';
+          // },
         ),
         MyTextFormField(
           name: 'Email',
-          onChanged: (value) {
-            setState(() {
-              email = value;
-            });
-          },
           icon: Icons.mail,
-          validator: (value) {
-            if (value == '') {
-              return 'Please Fill Your Email';
-            } else if (!regExp.hasMatch(value)) {
-              return 'Email is invalid';
-            }
-            return '';
-          },
+          controller: email,
+
+          // onChanged: (value) {
+          //   setState(() {
+          //     email = value;
+          //   });
+          // },
+          // validator: (value) {
+          //   if (value == '') {
+          //     return 'Please Fill Your Email';
+          //   } else if (!regExp.hasMatch(value)) {
+          //     return 'Email is invalid';
+          //   }
+          //   return '';
+          // },
         ),
         PasswordTextFormField(
           obserText: obserText,
           name: 'Password',
           icon: Icons.lock,
-          onChanged: (value) {
-            setState(() {
-              password = value;
-            });
-          },
-          validator: (value) {
-            if (value == '') {
-              return 'Please Fill In Your Password';
-            } else if (value.length < 8) {
-              return 'Password Is Too Short';
-            }
-            return '';
-          },
+          controller: password,
+
+          // onChanged: (value) {
+          //   setState(() {
+          //     password = value;
+          //   });
+          // },
+          // validator: (value) {
+          //   if (value == '') {
+          //     return 'Please Fill In Your Password';
+          //   } else if (value.length < 8) {
+          //     return 'Password Is Too Short';
+          //   }
+          //   return '';
+          // },
           onTap: () {
             setState(() {
               obserText = !obserText;
@@ -121,31 +214,35 @@ class _SignUpState extends State<SignUp> {
         ),
         MyTextFormField(
           name: 'Address',
-          onChanged: (value) {
-            setState(() {
-              address = value;
-            });
-          },
           icon: Icons.location_city,
-          validator: (value) {
-            if (value == '') {
-              return 'Please fill in your address';
-            }
-          },
+          controller: address,
+
+          // onChanged: (value) {
+          //   setState(() {
+          //     address = value;
+          //   });
+          // },
+          // validator: (value) {
+          //   if (value == '') {
+          //     return 'Please fill in your address';
+          //   }
+          // },
         ),
         MyTextFormField(
           name: 'Phone No.',
-          onChanged: (value) {
-            setState(() {
-              phoneNumber = value;
-            });
-          },
           icon: Icons.phone,
-          validator: (value) {
-            if (value == '') {
-              return 'Please fill in your phone number';
-            }
-          },
+          controller: phoneNumber,
+
+          // onChanged: (value) {
+          //   setState(() {
+          //     phoneNumber = value;
+          //   });
+          // },
+          // validator: (value) {
+          //   if (value == '') {
+          //     return 'Please fill in your phone number';
+          //   }
+          // },
         )
       ],
     );

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +6,7 @@ import 'package:toadstool/model/usermodel.dart';
 import 'package:toadstool/provider/plant_provider.dart';
 import 'package:toadstool/screens/basketscreen.dart';
 import 'package:toadstool/screens/homepage.dart';
+import 'package:toadstool/screens/login.dart';
 import 'package:toadstool/widgets/mybutton.dart';
 import 'package:toadstool/widgets/mytextformfield.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,8 +18,58 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
+TextEditingController phoneNumber;
+TextEditingController address;
+TextEditingController userName;
+
 class _ProfileScreenState extends State<ProfileScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  static String p =
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+  RegExp regExp = new RegExp(p);
+
+  void validation() async {
+    if (userName.text.isEmpty &&
+        phoneNumber.text.isEmpty &&
+        address.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('All Fields Are Empty'),
+        ),
+      );
+    } else if (userName.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('Username is Empty'),
+        ),
+      );
+    } else if (userName.text.length < 6) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('Name must consist of 6 letters'),
+        ),
+      );
+    } else if (address.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Address Is Empty "),
+        ),
+      );
+    } else if (phoneNumber.text.length < 11 || phoneNumber.text.length > 11) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Phone Number Must Be 11 "),
+        ),
+      );
+    } else {
+      _uploadImage(image: _pickedImage);
+      userDetailUpdate();
+    }
+  }
+
   File _pickedImage;
+  var imageMap;
+  var imagePath;
   PickedFile _image;
   Future<void> getImage({ImageSource source}) async {
     _image = await ImagePicker().getImage(source: source);
@@ -29,17 +81,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   String imageUrl;
+  User user;
+
+  PlantProvider plantProvider;
 
   void _uploadImage({File image}) async {
-    User user = FirebaseAuth.instance.currentUser;
+    user = FirebaseAuth.instance.currentUser;
     Reference storageReference =
         FirebaseStorage.instance.ref().child('UserImage/${user.uid}');
     UploadTask uploadTask = storageReference.putFile(image);
     TaskSnapshot snapshot = await uploadTask;
+
     imageUrl = await snapshot.ref.getDownloadURL();
+    // return imageUrl;
   }
 
-  PlantProvider plantProvider;
+  // var imageMap;
+  void userDetailUpdate() async {
+    // _pickedImage != null
+    //     ? imageMap = await _uploadImage(image: _pickedImage)
+    //     : Container();
+    FirebaseFirestore.instance.collection('User').doc(user.uid).update({
+      'UserName': userName.text,
+      'Address': address.text,
+      'PhoneNumber': phoneNumber.text,
+      'UserImage': imageUrl == null ? '' : imageUrl,
+    });
+    // setState(() {
+    //   edit = false;
+    // });
+  }
+
+  // User user;
+  // String imageUrl;
+
+  String userImage;
   bool edit = false;
 
   Widget _buildContainerPart() {
@@ -47,6 +123,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Column(
       children: userModel.map((e) {
+        userImage = e.userImage;
+        userName = TextEditingController(text: e.userName);
+        phoneNumber = TextEditingController(text: e.userPhoneNumber);
+        address = TextEditingController(text: e.userAddress);
+
         return Container(
           height: 350,
           width: double.infinity,
@@ -57,9 +138,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 enableEdit: true,
                 name: e.userName,
                 icon: Icons.person_outline,
+                controller: userName,
               ),
               MyTextFormField(
-                enableEdit: true,
+                enableEdit: false,
                 name: e.userEmail,
                 icon: Icons.mail_outline,
               ),
@@ -67,11 +149,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 enableEdit: true,
                 name: e.userPhoneNumber,
                 icon: Icons.phone_outlined,
+                controller: phoneNumber,
               ),
               MyTextFormField(
-                  enableEdit: true,
-                  name: e.userAddress,
-                  icon: Icons.people_outline),
+                enableEdit: true,
+                name: e.userAddress,
+                icon: Icons.people_outline,
+                controller: address,
+              ),
             ],
           ),
         );
@@ -89,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: ListBody(
                 children: [
                   ListTile(
-                    leading: Icon(Icons.camera),
+                    leading: Icon(Icons.camera_alt),
                     title: Text('Pick From Camera'),
                     onTap: () {
                       getImage(source: ImageSource.camera);
@@ -152,6 +237,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     plantProvider = Provider.of(context);
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Theme.of(context).canvasColor,
@@ -186,7 +272,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    _uploadImage(image: _pickedImage);
+                    // _uploadImage(image: _pickedImage);
+                    validation();
                     setState(() {
                       edit = false;
                     });
@@ -218,9 +305,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           CircleAvatar(
                             backgroundColor: Colors.white,
                             maxRadius: 65.0,
-                            backgroundImage: _pickedImage == null
+                            backgroundImage: userImage == null
                                 ? AssetImage('images/user-def.png')
-                                : FileImage(_pickedImage),
+                                : NetworkImage(userImage),
                           ),
                           SizedBox(
                             height: 15.0,

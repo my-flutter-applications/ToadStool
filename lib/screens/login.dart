@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:toadstool/widgets/changescreen.dart';
@@ -17,20 +18,76 @@ String p =
 
 RegExp regExp = new RegExp(p);
 bool obserText = true;
-String email;
-String password;
+// String email;
+// String password;
+final TextEditingController email = TextEditingController();
+final TextEditingController password = TextEditingController();
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+// void validation() async {
+//   final FormState _form = _formKey.currentState;
+//   if (!_form.validate()) {
+//     try {
+//       UserCredential result = await FirebaseAuth.instance
+//           .signInWithEmailAndPassword(email: email, password: password);
+//       print(result.user.uid);
+//     } catch (e) {
+//       print(e.message.toString());
+
+//       _scaffoldKey.currentState.showSnackBar(
+//         SnackBar(
+//           content: Text(
+//             e.message,
+//           ),
+//           duration: Duration(seconds: 2),
+//         ),
+//       );
+//     }
+//   } else {
+//     print('no');
+//   }
+// }
+
 void validation() async {
-  final FormState _form = _formKey.currentState;
-  if (!_form.validate()) {
+  if (email.text.isEmpty && password.text.isEmpty) {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text('Both Fields Are Empty'),
+      ),
+    );
+  } else if (email.text.isEmpty) {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text('Email is Empty'),
+      ),
+    );
+  } else if (!regExp.hasMatch(email.text)) {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text('Please Try a Valid Email'),
+      ),
+    );
+  } else if (password.text.isEmpty) {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text("Password Is Empty"),
+      ),
+    );
+  } else if (password.text.length < 8) {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text("Plase Try a Valid Password"),
+      ),
+    );
+  } else {
     try {
       UserCredential result = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+          .signInWithEmailAndPassword(
+              email: email.text, password: password.text);
       print(result.user.uid);
     } catch (e) {
-      print(e.message.toString());
+      // print(e.message.toString());
 
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(
@@ -41,8 +98,6 @@ void validation() async {
         ),
       );
     }
-  } else {
-    print('no');
   }
 }
 
@@ -89,38 +144,40 @@ class _LoginState extends State<Login> {
                 children: [
                   MyTextFormField(
                     name: 'Email',
-                    onChanged: (value) {
-                      setState(() {
-                        email = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'Please Fill Your Email';
-                      } else if (!regExp.hasMatch(value)) {
-                        return 'Email is invalid';
-                      }
-                      return '';
-                    },
+                    controller: email,
+                    // onChanged: (value) {
+                    //   setState(() {
+                    //     email = value;
+                    //   });
+                    // },
+                    // validator: (value) {
+                    //   if (value == '') {
+                    //     return 'Please Fill Your Email';
+                    //   } else if (!regExp.hasMatch(value)) {
+                    //     return 'Email is invalid';
+                    //   }
+                    //   return '';
+                    // },
                     icon: Icons.mail,
                   ),
                   PasswordTextFormField(
                     obserText: obserText,
+                    controller: password,
                     name: 'Password',
                     icon: Icons.lock,
-                    onChanged: (value) {
-                      setState(() {
-                        password = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'Please Fill In Your Password';
-                      } else if (value.length < 8) {
-                        return 'Password Is Too Short';
-                      }
-                      return '';
-                    },
+                    // onChanged: (value) {
+                    //   setState(() {
+                    //     password = value;
+                    //   });
+                    // },
+                    // validator: (value) {
+                    //   if (value == '') {
+                    //     return 'Please Fill In Your Password';
+                    //   } else if (value.length < 8) {
+                    //     return 'Password Is Too Short';
+                    //   }
+                    //   return '';
+                    // },
                     onTap: () {
                       FocusScope.of(context).unfocus();
 

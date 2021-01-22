@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toadstool/model/basketmodel.dart';
+import 'package:toadstool/model/plant.dart';
 import 'package:toadstool/provider/plant_provider.dart';
 import 'package:toadstool/screens/homepage.dart';
 import 'package:toadstool/widgets/basketsingleplant.dart';

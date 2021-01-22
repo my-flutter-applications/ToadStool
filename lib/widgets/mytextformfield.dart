@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyTextFormField extends StatelessWidget {
-  final Function validator;
+  // final Function validator;
+  final TextEditingController controller;
   final String name;
   final Function onChanged;
   final IconData icon;
@@ -9,7 +10,8 @@ class MyTextFormField extends StatelessWidget {
 
   MyTextFormField({
     this.name,
-    this.validator,
+    // this.validator,
+    this.controller,
     this.onChanged,
     this.icon,
     this.enableEdit,
@@ -25,7 +27,8 @@ class MyTextFormField extends StatelessWidget {
         color: Theme.of(context).primaryColor,
       ),
       onChanged: onChanged,
-      validator: validator,
+      // validator: validator,
+      controller: controller,
       decoration: InputDecoration(
         prefixIcon: Icon(
           icon,
