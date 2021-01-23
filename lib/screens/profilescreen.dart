@@ -27,6 +27,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   static String p =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regExp = new RegExp(p);
+  Future<void> finalValidation() async {
+    _uploadImage(image: _pickedImage);
+    userDetailUpdate();
+  }
 
   void validation() async {
     if (userName.text.isEmpty &&
@@ -55,15 +59,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           content: Text("Address Is Empty "),
         ),
       );
-    } else if (phoneNumber.text.length < 11 || phoneNumber.text.length > 11) {
+    } else if (phoneNumber.text.length < 10 || phoneNumber.text.length > 10) {
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(
-          content: Text("Phone Number Must Be 11 "),
+          content: Text("Phone Number Must Be 10 "),
         ),
       );
     } else {
-      _uploadImage(image: _pickedImage);
-      userDetailUpdate();
+      finalValidation();
     }
   }
 
@@ -85,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   PlantProvider plantProvider;
 
-  void _uploadImage({File image}) async {
+  Future<void> _uploadImage({File image}) async {
     user = FirebaseAuth.instance.currentUser;
     Reference storageReference =
         FirebaseStorage.instance.ref().child('UserImage/${user.uid}');
@@ -97,19 +100,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   // var imageMap;
-  void userDetailUpdate() async {
+  Future<void> userDetailUpdate() async {
     // _pickedImage != null
     //     ? imageMap = await _uploadImage(image: _pickedImage)
     //     : Container();
     FirebaseFirestore.instance.collection('User').doc(user.uid).update({
       'UserName': userName.text,
-      'Address': address.text,
-      'PhoneNumber': phoneNumber.text,
+      'UserAddress': address.text,
+      'UserNumber': phoneNumber.text,
       'UserImage': imageUrl == null ? '' : imageUrl,
     });
     // setState(() {
     //   edit = false;
     // });
+    return null;
   }
 
   // User user;

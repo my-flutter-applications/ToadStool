@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toadstool/provider/plant_provider.dart';
@@ -47,7 +49,80 @@ class _BasketSinglePlantState extends State<BasketSinglePlant> {
     count = 1;
   }
 
+  int index;
+  User user;
+
+  Widget _buildButton() {
+    return Column(
+      children: plantProvider.userModelList.map((e) {
+        return SizedBox(
+            height: 42,
+            width: 95,
+            child: MyButton(
+                name: 'Plant',
+                onPressed: () {
+                  plantProvider.getBasketData(
+                    image: widget.image,
+                    name: widget.name,
+                    genus: widget.genus,
+                    quantity: count,
+                    date: getCurrentDate(),
+                  );
+                  if (plantProvider.getBasketModelList.isNotEmpty) {
+                    FirebaseFirestore.instance
+                        .collection('GardenPlants')
+                        .doc(user.uid)
+                        .set({
+                      // "Plant Name": plantProvider.getBasketModelList[index].name,
+                      // "Plant Genus":
+                      //     plantProvider.getBasketModelList[index].genus,
+                      // "Plant Quantity":
+                      //     plantProvider.getBasketModelList[index].quantity,
+                      // "UserName": e.userName,
+                      // "UserEmail": e.userEmail,
+                      // "UserAddress": e.userAddress,
+                      // "userUid": user.uid,
+                      // 'plantedDate': getCurrentDate()
+                      'Plant': plantProvider.getBasketModelList
+                          .map((e) => {
+                                'PlantName': e.name,
+                                'PlantGenus': e.genus,
+                                'PlantQuantity': e.quantity,
+                                'PlantDate': getCurrentDate(),
+                              })
+                          .toList(),
+                      "UserName": e.userName,
+                      "UserEmail": e.userEmail,
+                      "UserAddress": e.userAddress,
+                      "userUid": user.uid,
+                    });
+                    // plantProvider.clearGardenPlant();
+                  } else {
+                    print('No Item');
+                  }
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Garden(),
+                  ));
+                }));
+      }).toList(),
+    );
+  }
+
+  // FirebaseFirestore.instance
+  //     .collection('GardenPlants')
+  //     .doc(user.uid)
+  //     .set({
+  //       "Plant Name" : plantProvider.getBasketModelList[index].name,
+  //       "Plant Genus" : plantProvider.getBasketModelList[index].genus,
+  //       "Plant Quantity" : plantProvider.getBasketModelList[index].quantity,
+  //       "UserName" :
+  //       "UserEmail" :
+  //       "UserAddress" :
+  //       "userUid" :
+  //     });
+
   Widget build(BuildContext context) {
+    user = FirebaseAuth.instance.currentUser;
     plantProvider = Provider.of<PlantProvider>(context);
 
     // count = widget.quantity;
@@ -132,42 +207,51 @@ class _BasketSinglePlantState extends State<BasketSinglePlant> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 5.0, right: 5.0),
-            child: Column(
-              children: [
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 50.0, bottom: 10.0),
-                //   child: IconButton(
-                //     icon: Icon(
-                //       Icons.close,
-                //       color: Colors.white,
-                //     ),
-                //     onPressed: () {
-                //        plantProvider
-                //                                     .deleteGardenPlant(index);
-                //     },
-                //   ),
-                // ),
-                SizedBox(
-                  height: 42,
-                  width: 95,
-                  child: MyButton(
-                    name: 'Plant',
-                    onPressed: () {
-                      plantProvider.getBasketData(
-                        image: widget.image,
-                        name: widget.name,
-                        genus: widget.genus,
-                        quantity: count,
-                        date: getCurrentDate(),
-                      );
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Garden(),
-                      ));
-                    },
-                  ),
-                ),
-              ],
-            ),
+            // child:
+            // Column(
+            // children: [
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 50.0, bottom: 10.0),
+            //   child: IconButton(
+            //     icon: Icon(
+            //       Icons.close,
+            //       color: Colors.white,
+            //     ),
+            //     onPressed: () {
+            //        plantProvider
+            //                                     .deleteGardenPlant(index);
+            //     },
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 42,
+            //   width: 95,
+            //   child: MyButton(
+            //     name: 'Plant',
+            //     onPressed: () {
+            //       plantProvider.getBasketData(
+            //         image: widget.image,
+            //         name: widget.name,
+            //         genus: widget.genus,
+            //         quantity: count,
+            //         date: getCurrentDate(),
+            //       );
+            //       Navigator.of(context).push(MaterialPageRoute(
+            //         builder: (context) => Garden(),
+            //       ));
+            //     },
+            //   ),
+            // ),
+            // ],
+            // ),
+            // child: ListView.builder(
+            //     shrinkWrap: true,
+            //     physics: NeverScrollableScrollPhysics(),
+            //     itemCount: plantProvider.getBasketModelListLength,
+            //     itemBuilder: (context, index) {
+            //       return _buildButton();
+            //     }),
+            child: _buildButton(),
           ),
         ],
       ),

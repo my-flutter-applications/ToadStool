@@ -159,7 +159,9 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(color: Colors.white),
           ),
           currentAccountPicture: CircleAvatar(
-            backgroundImage: AssetImage('images/roses.jpeg'),
+            backgroundImage: e.userImage == null
+                ? AssetImage('images/user-def.png')
+                : NetworkImage(e.userImage),
           ),
         );
       }).toList(),

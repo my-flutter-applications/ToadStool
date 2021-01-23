@@ -24,14 +24,15 @@ class PlantProvider with ChangeNotifier {
           userModel = UserModel(
               userName: element.data()['UserName'],
               userEmail: element.data()['UserEmail'],
-              userAddress: element.data()['Address'],
-              userPhoneNumber: element.data()['PhoneNumber'],
+              userAddress: element.data()['UserAddress'],
+              userPhoneNumber: element.data()['UserNumber'],
               userImage: element.data()['UserImage']);
           newList.add(userModel);
         }
         userModelList = newList;
       },
     );
+    notifyListeners();
   }
 
   List<UserModel> get getUserModelList {
@@ -40,6 +41,12 @@ class PlantProvider with ChangeNotifier {
 
   void deleteGardenPlant(int index) {
     basketModelList.removeAt(index);
+    notifyListeners();
+  }
+
+  void clearGardenPlant() {
+    basketModelList.clear();
+    notifyListeners();
   }
 
   void getBasketData(

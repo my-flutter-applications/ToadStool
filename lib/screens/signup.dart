@@ -114,7 +114,7 @@ class _SignUpState extends State<SignUp> {
     } else if (phoneNumber.text.length < 10 || phoneNumber.text.length > 10) {
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(
-          content: Text("Phone Number Must Be 11 "),
+          content: Text("Phone Number Must Be 10"),
         ),
       );
     } else {
@@ -126,8 +126,8 @@ class _SignUpState extends State<SignUp> {
           'UserName': userName.text,
           'UserId': result.user.uid,
           'UserEmail': email.text,
-          'Address': address.text,
-          'PhoneNumber': phoneNumber.text,
+          'UserAddress': address.text,
+          'UserNumber': phoneNumber.text,
         });
       } catch (e) {
         // print(e.message.toString());

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +25,7 @@ class _GardenState extends State<Garden> {
 
   @override
   Widget build(BuildContext context) {
+    User user = FirebaseAuth.instance.currentUser;
     int totalPlants = 0;
 
     plantProvider = Provider.of<PlantProvider>(context);
@@ -95,6 +98,18 @@ class _GardenState extends State<Garden> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: plantProvider.getBasketModelListLength,
                     itemBuilder: (context, index) {
+                      // FirebaseFirestore.instance
+                      //     .collection('GardenPlants')
+                      //     .doc(user.uid)
+                      //     .set({
+                      //       "Plant Name" : plantProvider.getBasketModelList[index].name,
+                      //       "Plant Genus" : plantProvider.getBasketModelList[index].genus,
+                      //       "Plant Quantity" : plantProvider.getBasketModelList[index].quantity,
+                      //       "UserName" : user.displayName,
+                      //       "UserEmail" :user.email,
+                      //       "UserAddress" : user.,
+                      //       "userUid" : user.uid,
+                      //     });
                       return Container(
                         margin: EdgeInsets.symmetric(vertical: 10.0),
                         // padding: EdgeInsets.symmetric(vertical: 15.0),
