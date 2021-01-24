@@ -76,80 +76,79 @@ class _ContactUsState extends State<ContactUs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Theme.of(context).canvasColor,
-        title: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
+        key: _scaffoldKey,
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: Theme.of(context).canvasColor,
+          title: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => HomePage()));
+            },
           ),
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => HomePage()));
-          },
         ),
-      ),
-      body: ListView(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 27),
-            height: 600,
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  'Send Us Your Message',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 28,
+        body: ListView(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 27),
+              height: 600,
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Send Us Your Message',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 28,
+                    ),
                   ),
-                ),
-                _buildSingleField(name: name),
-                _buildSingleField(name: email),
+                  _buildSingleField(name: name),
+                  _buildSingleField(name: email),
 
-                /////
-                Container(
-                  height: 200,
-                  child: TextFormField(
-                    controller: message,
-                    style: TextStyle(color: Colors.white),
-                    // controller: message,
-                    expands: true,
-                    maxLines: null,
-                    textAlignVertical: TextAlignVertical.top,
-                    decoration: InputDecoration(
-                      hintText: 'Message',
-                      hintStyle: TextStyle(color: Colors.white),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20.0),
+                  /////
+                  Container(
+                    height: 200,
+                    child: TextFormField(
+                      controller: message,
+                      style: TextStyle(color: Colors.white),
+                      // controller: message,
+                      expands: true,
+                      maxLines: null,
+                      textAlignVertical: TextAlignVertical.top,
+                      decoration: InputDecoration(
+                        hintText: 'Message',
+                        hintStyle: TextStyle(color: Colors.white),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.0),
+                          ),
                         ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Theme.of(context).primaryColor),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20.0),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Theme.of(context).primaryColor),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.0),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                MyButton(
-                  name: 'Submit',
-                  onPressed: () {
-                    validation();
-                  },
-                ),
-              ],
+                  MyButton(
+                    name: 'Submit',
+                    onPressed: () {
+                      validation();
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 }

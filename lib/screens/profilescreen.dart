@@ -18,16 +18,17 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-TextEditingController phoneNumber;
-TextEditingController address;
-TextEditingController userName;
-
 class _ProfileScreenState extends State<ProfileScreen> {
+  UserModel userModel;
+
+  TextEditingController phoneNumber;
+  TextEditingController address;
+  TextEditingController userName;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   static String p =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regExp = new RegExp(p);
-  Future<void> finalValidation() async {
+  void finalValidation() {
     _uploadImage(image: _pickedImage);
     userDetailUpdate();
   }
@@ -86,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String imageUrl;
   User user;
 
-  PlantProvider plantProvider;
+  // PlantProvider plantProvider;
 
   Future<void> _uploadImage({File image}) async {
     user = FirebaseAuth.instance.currentUser;
@@ -123,49 +124,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool edit = false;
 
   Widget _buildContainerPart() {
-    List<UserModel> userModel = plantProvider.userModelList;
+    userName = TextEditingController(text: userModel.userName);
+    phoneNumber = TextEditingController(text: userModel.userPhoneNumber);
+    address = TextEditingController(text: userModel.userAddress);
+    // List<UserModel> userModel = plantProvider.userModelList;
 
-    return Column(
-      children: userModel.map((e) {
-        userImage = e.userImage;
-        userName = TextEditingController(text: e.userName);
-        phoneNumber = TextEditingController(text: e.userPhoneNumber);
-        address = TextEditingController(text: e.userAddress);
+    return
+        // Column(
+        //   children: userModel.map((e) {
+        //     userImage = e.userImage;
+        // userName = TextEditingController(text: e.userName);
+        // phoneNumber = TextEditingController(text: e.userPhoneNumber);
+        // address = TextEditingController(text: e.userAddress);
 
-        return Container(
-          height: 350,
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              MyTextFormField(
-                enableEdit: true,
-                name: e.userName,
-                icon: Icons.person_outline,
-                controller: userName,
-              ),
-              MyTextFormField(
-                enableEdit: false,
-                name: e.userEmail,
-                icon: Icons.mail_outline,
-              ),
-              MyTextFormField(
-                enableEdit: true,
-                name: e.userPhoneNumber,
-                icon: Icons.phone_outlined,
-                controller: phoneNumber,
-              ),
-              MyTextFormField(
-                enableEdit: true,
-                name: e.userAddress,
-                icon: Icons.people_outline,
-                controller: address,
-              ),
-            ],
+        Container(
+      height: 350,
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          MyTextFormField(
+            enableEdit: true,
+            name: userModel.userName,
+            icon: Icons.person_outline,
+            controller: userName,
           ),
-        );
-      }).toList(),
+          MyTextFormField(
+            enableEdit: false,
+            name: userModel.userEmail,
+            icon: Icons.mail_outline,
+          ),
+          MyTextFormField(
+            enableEdit: true,
+            name: userModel.userPhoneNumber,
+            icon: Icons.phone_outlined,
+            controller: phoneNumber,
+          ),
+          MyTextFormField(
+            enableEdit: true,
+            name: userModel.userAddress,
+            icon: Icons.people_outline,
+            controller: address,
+          ),
+        ],
+      ),
     );
+    // },
+    // ).toList(),
+    // );
   }
 
   Future<void> myDialogBox() {
@@ -201,45 +207,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildTextFormFieldPart() {
-    List<UserModel> userModel = plantProvider.userModelList;
+    // List<UserModel> userModel = plantProvider.userModelList;
 
-    return Column(
-      children: userModel.map((e) {
-        return Container(
-          height: 350,
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              MyTextFormField(
-                enableEdit: false,
-                name: e.userName,
-                icon: Icons.person_outline,
-              ),
-              MyTextFormField(
-                enableEdit: false,
-                name: e.userEmail,
-                icon: Icons.mail_outline,
-              ),
-              MyTextFormField(
-                enableEdit: false,
-                name: e.userPhoneNumber,
-                icon: Icons.phone_outlined,
-              ),
-              MyTextFormField(
-                  enableEdit: false,
-                  name: e.userAddress,
-                  icon: Icons.people_outline),
-            ],
+    return
+        // Column(
+        //   children: userModel.map((e) {
+        //     return
+        Container(
+      height: 350,
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          MyTextFormField(
+            enableEdit: false,
+            name: userModel.userName,
+            icon: Icons.person_outline,
           ),
-        );
-      }).toList(),
+          MyTextFormField(
+            enableEdit: false,
+            name: userModel.userEmail,
+            icon: Icons.mail_outline,
+          ),
+          MyTextFormField(
+            enableEdit: false,
+            name: userModel.userPhoneNumber,
+            icon: Icons.phone_outlined,
+          ),
+          MyTextFormField(
+              enableEdit: false,
+              name: userModel.userAddress,
+              icon: Icons.people_outline),
+        ],
+      ),
     );
+    // }).toList(),
+    // );
   }
 
   @override
   Widget build(BuildContext context) {
-    plantProvider = Provider.of(context);
+    // plantProvider = Provider.of(context);
+    User user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -276,7 +285,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    // _uploadImage(image: _pickedImage);
+                    _uploadImage(image: _pickedImage);
                     validation();
                     setState(() {
                       edit = false;
@@ -286,89 +295,128 @@ class _ProfileScreenState extends State<ProfileScreen> {
               : Icon(null)
         ],
       ),
-      body: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints:
-              BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
-          child: Container(
-            height: 600,
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 15.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(top: 5.0),
-                      height: 155,
+      body:
+          // StreamBuilder(
+          //     stream: FirebaseFirestore.instance.collection('User').snapshots(),
+          //     builder: (context, snapshot) {
+          //       if (snapshot.connectionState == ConnectionState.waiting) {
+          //         return Center(
+          //           child: CircularProgressIndicator(),
+          //         );
+          //       }
+          //       var myDoc = snapshot.data.docs;
+          //       myDoc.forEach((checkDocs) {});
+
+          StreamBuilder(
+              stream: FirebaseFirestore.instance.collection('User').snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                var myDoc = snapshot.data.docs;
+                myDoc.forEach((checkDocs) {
+                  if (checkDocs.data()['UserId'] == user.uid) {
+                    userModel = UserModel(
+                      userName: checkDocs.data()['UserName'],
+                      userEmail: checkDocs.data()['UserEmail'],
+                      userAddress: checkDocs.data()['UserAddress'],
+                      userPhoneNumber: checkDocs.data()['UserNumber'],
+                      userImage: checkDocs.data()['UserImage'],
+                    );
+                  }
+                });
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height),
+                    child: Container(
+                      height: 600,
                       width: double.infinity,
+                      padding: EdgeInsets.symmetric(horizontal: 15.0),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.white,
-                            maxRadius: 65.0,
-                            backgroundImage: userImage == null
-                                ? AssetImage('images/user-def.png')
-                                : NetworkImage(userImage),
+                          Stack(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(top: 5.0),
+                                height: 155,
+                                width: double.infinity,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      maxRadius: 65.0,
+                                      backgroundImage: _pickedImage == null
+                                          ? userModel.userImage == null
+                                              ? AssetImage(
+                                                  'images/user-def.png')
+                                              : NetworkImage(
+                                                  userModel.userImage)
+                                          : FileImage(_pickedImage),
+                                    ),
+                                    SizedBox(
+                                      height: 15.0,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              edit == true
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 220.0, top: 85.0),
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            myDialogBox();
+                                          },
+                                          child: CircleAvatar(
+                                            backgroundColor:
+                                                Theme.of(context).accentColor,
+                                            child: Icon(
+                                              Icons.camera_alt,
+                                              color:
+                                                  Theme.of(context).canvasColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
+                            ],
                           ),
+                          edit == false
+                              ? _buildTextFormFieldPart()
+                              : _buildContainerPart(),
                           SizedBox(
-                            height: 15.0,
-                          )
+                            height: 20.0,
+                          ),
+                          edit == false
+                              ? Container(
+                                  height: 45.0,
+                                  width: 200.0,
+                                  child: MyButton(
+                                    name: 'Edit Profile',
+                                    onPressed: () {
+                                      setState(() {
+                                        edit = true;
+                                      });
+                                    },
+                                  ),
+                                )
+                              : Container(),
                         ],
                       ),
                     ),
-                    edit == true
-                        ? Padding(
-                            padding:
-                                const EdgeInsets.only(left: 220.0, top: 85.0),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              child: GestureDetector(
-                                onTap: () {
-                                  myDialogBox();
-                                },
-                                child: CircleAvatar(
-                                  backgroundColor:
-                                      Theme.of(context).accentColor,
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    color: Theme.of(context).canvasColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        : Container(),
-                  ],
-                ),
-                edit == false
-                    ? _buildTextFormFieldPart()
-                    : _buildContainerPart(),
-                SizedBox(
-                  height: 20.0,
-                ),
-                edit == false
-                    ? Container(
-                        height: 45.0,
-                        width: 200.0,
-                        child: MyButton(
-                          name: 'Edit Profile',
-                          onPressed: () {
-                            setState(() {
-                              edit = true;
-                            });
-                          },
-                        ),
-                      )
-                    : Container(),
-              ],
-            ),
-          ),
-        ),
-      ),
+                  ),
+                );
+              }),
     );
   }
 }
