@@ -302,4 +302,18 @@ class CategoryProvider with ChangeNotifier {
   List<Plant> get getVineList {
     return vine;
   }
+
+  List<Plant> searchList;
+
+  void getSearchList({List<Plant> list}) {
+    searchList = list;
+  }
+
+  List<Plant> searchCategoryList(String query) {
+    List<Plant> searchAnnual = searchList.where((element) {
+      return element.name.toUpperCase().contains(query) ||
+          element.name.toLowerCase().contains(query);
+    }).toList();
+    return searchAnnual;
+  }
 }

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:toadstool/provider/category_provider.dart';
 import 'package:toadstool/provider/plant_provider.dart';
 import 'package:toadstool/screens/basketscreen.dart';
+import 'package:toadstool/screens/contactus.dart';
 import 'package:toadstool/screens/detailsscreen.dart';
 import 'package:toadstool/screens/gardenscreen.dart';
 import 'package:toadstool/screens/homepage.dart';
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
             }
           },
         ),
-        // home: ProfileScreen(),
+        // home: ContactUs(),
       ),
     );
   }

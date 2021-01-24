@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:toadstool/model/plant.dart';
+import 'package:toadstool/provider/category_provider.dart';
+import 'package:toadstool/provider/plant_provider.dart';
+import 'package:toadstool/screens/detailsscreen.dart';
 import 'package:toadstool/screens/homepage.dart';
+import 'package:toadstool/screens/search_plant.dart';
+import 'package:toadstool/screens/searchcategory.dart';
 import 'package:toadstool/widgets/singleplant.dart';
 
 class ListPlant extends StatelessWidget {
   final String name;
+  bool isCategory = true;
   final List<Plant> snapShot;
-  ListPlant({this.name, this.snapShot});
+  ListPlant({this.name, this.snapShot, this.isCategory});
   @override
   Widget build(BuildContext context) {
+    CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context);
+    PlantProvider plantProvider = Provider.of<PlantProvider>(context);
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -29,13 +39,27 @@ class ListPlant extends StatelessWidget {
           //   },
           // ),
           actions: [
-            IconButton(
-              icon: Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            ),
+            isCategory == true
+                ? IconButton(
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      showSearch(context: context, delegate: SearchCategory());
+                    },
+                  )
+                : IconButton(
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      plantProvider.getSearchList(list: snapShot);
+
+                      showSearch(context: context, delegate: SearchPlant());
+                    },
+                  ),
             IconButton(
               icon: Icon(
                 Icons.shopping_bag_outlined,
@@ -75,20 +99,6 @@ class ListPlant extends StatelessWidget {
                 height: MediaQuery.of(context).size.height / 1.25,
 
                 child: GridView.count(
-                  // crossAxisCount: 2,
-                  // mainAxisSpacing: 14,
-
-                  // childAspectRatio: 0.75,
-
-                  // itemCount: snapShot.data.documents.length,
-                  // itemBuilder: (context, index) => SinglePlant(
-                  //       name: snapShot.data.documents[index]['name'],
-                  //       image: snapShot.data.documents[index]['image'],
-                  //       genus: snapShot.data.documents[index]['genus'],
-                  //     ),
-                  // scrollDirection: Axis.vertical,
-                  // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //   crossAxisCount: 2,
                   childAspectRatio: 0.8,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 10,

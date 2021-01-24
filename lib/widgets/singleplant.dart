@@ -17,7 +17,7 @@ class SinglePlant extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => DetailScreen(
                   name: name,
                   genus: genus,

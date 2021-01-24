@@ -351,8 +351,9 @@ class _DetailScreenState extends State<DetailScreen> {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => HomePage()));
+            // Navigator.of(context)
+            //     .push(MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.pop(context);
           },
         ),
       ),

@@ -8,9 +8,12 @@ import 'package:provider/provider.dart';
 import 'package:toadstool/model/usermodel.dart';
 import 'package:toadstool/provider/category_provider.dart';
 import 'package:toadstool/provider/plant_provider.dart';
+import 'package:toadstool/screens/contactus.dart';
 import 'package:toadstool/screens/detailsscreen.dart';
 import 'package:toadstool/screens/listplant.dart';
 import 'package:toadstool/screens/profilescreen.dart';
+import 'package:toadstool/screens/search_plant.dart';
+// import 'package:toadstool/screens/search.dart';
 import 'package:toadstool/widgets/singleplant.dart';
 import '../model/plant.dart';
 
@@ -45,6 +48,31 @@ var vine;
 
 Plant lavenderData;
 Plant raspberryData;
+// List<Plant> search = plantProvider.searchPlantList('');
+
+// List<Plant> all = [];
+// Plant allData;
+// Future<void> getList(String collection) async {
+//   List<Plant> newList = [];
+
+//   DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+//       .collection("category")
+//       .doc('Rc91xFvd6aLv1yDrmG6Q')
+//       .get();
+
+//   documentSnapshot.data().forEach((collection, docu) {
+//     allData = Plant(
+//       name: docu.doc.data()['name'],
+//       genus: docu.doc.data()['genus'],
+//       image: docu.doc.data()['image'],
+//     );
+//     newList.add(allData);
+//   });
+//   // return wholeList = querySnapshot.documents;
+//   // return documentSnapshot;
+//   // newList.add(documentSnapshot.data());
+//   all = newList;
+// }
 
 class _HomePageState extends State<HomePage> {
   Widget _buildPlantCategory({String categoryType, Color color}) {
@@ -270,6 +298,8 @@ class _HomePageState extends State<HomePage> {
                 homeColor = false;
                 aboutColor = false;
               });
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => ContactUs()));
             },
             selectedTileColor: Theme.of(context).primaryColorDark,
             leading: Icon(Icons.phone_outlined,
@@ -463,6 +493,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ListPlant(
                               name: "Featured Plants",
+                              isCategory: false,
                               snapShot: featuredPlant,
                             )));
                   },
@@ -550,6 +581,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ListPlant(
                               name: "Popular Plants",
+                              isCategory: false,
                               snapShot: popularPlant,
                             )));
                   },
@@ -623,6 +655,7 @@ class _HomePageState extends State<HomePage> {
     plantProvider.getHomePopularData();
 
     plantProvider.getUserData();
+    // plantProvider.getAllData();
 
     return Scaffold(
       key: _key,
@@ -641,12 +674,27 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         actions: [
-          IconButton(
-              icon: Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-              onPressed: () {}),
+          // IconButton(
+          // icon: Icon(
+          //   Icons.search,
+          //   color: Colors.white,
+          // ),
+          // onPressed: () {
+          // showSearch(context: context, delegate: Search());
+          // plantProvider.getSearchList(list: snapShot);
+          // Navigator.of(context).push(MaterialPageRoute(
+          // builder: (context) => ListPlant(
+          //       name: 'Search',
+          //       snapShot: search,
+          //     )));
+
+          //   showSearch(context: context, delegate: SearchPlant());
+          //   ListPlant(
+          //     isCategory: false,
+          //     name: 'Search',
+          //     snapShot: all,
+          //   );
+          // }),
           IconButton(
               icon: Icon(
                 Icons.shopping_bag_outlined,
@@ -680,28 +728,37 @@ class _HomePageState extends State<HomePage> {
               ),
               Column(
                 children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextFormField(
-                          decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search, color: Colors.white),
-                        fillColor: Theme.of(context).primaryColorDark,
-                        filled: true,
-                        hintText: 'Search',
-                        hintStyle: TextStyle(color: Colors.white),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      )),
-                    ),
-                  ),
+                  // Container(
+                  //   height: MediaQuery.of(context).size.height * 0.1,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(top: 10.0),
+                  //     child: TextFormField(
+                  //         decoration: InputDecoration(
+                  //       prefixIcon: IconButton(
+                  //         icon: Icon(
+                  //           Icons.search,
+                  //         ),
+                  //         color: Colors.white,
+                  //         onPressed: () {
+                  //           showSearch(
+                  //               context: context, delegate: SearchPlant());
+                  //         },
+                  //       ),
+                  //       fillColor: Theme.of(context).primaryColorDark,
+                  //       filled: true,
+                  //       hintText: 'Search',
+                  //       hintStyle: TextStyle(color: Colors.white),
+                  //       enabledBorder: OutlineInputBorder(
+                  //         borderSide: BorderSide(color: Colors.transparent),
+                  //         borderRadius: BorderRadius.circular(30.0),
+                  //       ),
+                  //       focusedBorder: OutlineInputBorder(
+                  //         borderSide: BorderSide(color: Colors.transparent),
+                  //         borderRadius: BorderRadius.circular(30.0),
+                  //       ),
+                  //     )),
+                  //   ),
+                  // ),
                   _buildCategory(),
                   _buildFeatured(),
                   _buildPopular(),

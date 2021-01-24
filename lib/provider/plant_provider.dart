@@ -183,4 +183,18 @@ class PlantProvider with ChangeNotifier {
   List<Plant> get getPopularList {
     return popular;
   }
+
+  List<Plant> searchList;
+
+  void getSearchList({List<Plant> list}) {
+    searchList = list;
+  }
+
+  List<Plant> searchPlantList(String query) {
+    List<Plant> searchPlant = searchList.where((element) {
+      return element.name.toUpperCase().contains(query) ||
+          element.name.toLowerCase().contains(query);
+    }).toList();
+    return searchPlant;
+  }
 }
