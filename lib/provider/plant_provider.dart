@@ -59,7 +59,9 @@ class PlantProvider with ChangeNotifier {
       date: date,
     );
     basketModelList.add(basketModel);
-    // notifyListeners();
+
+    //////
+    notifyListeners();
   }
 
   List<BasketModel> get getBasketModelList {

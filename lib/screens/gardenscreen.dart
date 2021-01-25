@@ -3,25 +3,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:toadstool/model/basketmodel.dart';
+import 'package:toadstool/model/plant.dart';
 import 'package:toadstool/provider/plant_provider.dart';
 import 'package:toadstool/screens/basketscreen.dart';
 import 'package:toadstool/screens/detailsscreen.dart';
 import 'package:toadstool/widgets/basketsingleplant.dart';
 
 class Garden extends StatefulWidget {
-  // final String name;
-  // final String image;
-  // final String genus;
-  // final String date;
-  // final int quantity;
-
-  // Garden({this.name, this.image, this.genus, this.date, this.quantity});
   @override
   _GardenState createState() => _GardenState();
 }
 
 class _GardenState extends State<Garden> {
+  Plant plantModel;
   PlantProvider plantProvider;
+  List<BasketModel> myList;
+  @override
+  void initState() {
+    plantProvider = Provider.of<PlantProvider>(context, listen: false);
+    myList = plantProvider.basketModelList;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,166 +96,172 @@ class _GardenState extends State<Garden> {
                 SizedBox(
                   height: 30.0,
                 ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: plantProvider.getBasketModelListLength,
-                    itemBuilder: (context, index) {
-                      // FirebaseFirestore.instance
-                      //     .collection('GardenPlants')
-                      //     .doc(user.uid)
-                      //     .set({
-                      //       "Plant Name" : plantProvider.getBasketModelList[index].name,
-                      //       "Plant Genus" : plantProvider.getBasketModelList[index].genus,
-                      //       "Plant Quantity" : plantProvider.getBasketModelList[index].quantity,
-                      //       "UserName" : user.displayName,
-                      //       "UserEmail" :user.email,
-                      //       "UserAddress" : user.,
-                      //       "userUid" : user.uid,
-                      //     });
-                      return Container(
-                        margin: EdgeInsets.symmetric(vertical: 10.0),
-                        // padding: EdgeInsets.symmetric(vertical: 15.0),
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColorDark,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            )),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            // BasketSinglePlant(
-                            //   image:
-                            //       plantProvider.getBasketModelList[index].image,
-                            //   name:
-                            //       plantProvider.getBasketModelList[index].name,
-                            //   genus:
-                            //       plantProvider.getBasketModelList[index].genus,
-                            //   quantity: plantProvider
-                            //       .getBasketModelList[index].quantity,
-                            //   date:
-                            //       plantProvider.getBasketModelList[index].date,
-                            // )
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushReplacement(MaterialPageRoute(
-                                        builder: (context) => DetailScreen(
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('GardenPlants')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: plantProvider.getBasketModelListLength,
+                          itemBuilder: (context, index) {
+                            print(
+                                plantProvider.getBasketModelList[index].genus);
 
-                                            //@TODO : add the detail screen parameters
-                                            )));
-                              },
-                              child: Container(
-                                margin: EdgeInsets.symmetric(vertical: 10.0),
-                                padding: EdgeInsets.symmetric(vertical: 5.0),
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColorDark,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    )),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15.0),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        child: Container(
-                                          height: 70,
-                                          width: 70,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                plantProvider
-                                                    .getBasketModelList[index]
-                                                    .image,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          plantProvider
-                                              .getBasketModelList[index].name,
-                                          // textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          plantProvider
-                                              .getBasketModelList[index].genus,
-                                          // textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16.0),
-                                        ),
-                                        Text(
-                                          'Planted on :  ${plantProvider.getBasketModelList[index].date}',
-                                          style: TextStyle(
-                                              color: Colors.greenAccent,
-                                              fontSize: 14.0),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 40.0,
-                                      ),
-                                      child: Column(
+                            return Container(
+                              margin: EdgeInsets.symmetric(vertical: 10.0),
+                              // padding: EdgeInsets.symmetric(vertical: 15.0),
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColorDark,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0),
+                                  )),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailScreen(
+                                                    name: plantProvider
+                                                        .getBasketModelList[
+                                                            index]
+                                                        .name,
+                                                    image: plantProvider
+                                                        .getBasketModelList[
+                                                            index]
+                                                        .image,
+                                                    genus: plantProvider
+                                                        .getBasketModelList[
+                                                            index]
+                                                        .name,
+                                                  )));
+                                    },
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 10.0),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 5.0),
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .primaryColorDark,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          )),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 0.0,
-                                            ),
-                                            child: IconButton(
-                                              icon: Icon(
-                                                Icons.close,
-                                                color: Colors.white,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15.0),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              child: Container(
+                                                height: 70,
+                                                width: 70,
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      plantProvider
+                                                          .getBasketModelList[
+                                                              index]
+                                                          .image,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
-                                              onPressed: () {
-                                                plantProvider
-                                                    .deleteGardenPlant(index);
-                                              },
                                             ),
                                           ),
-                                          Text('Qty',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15.0,
-                                                  fontWeight: FontWeight.bold)),
-                                          SizedBox(
-                                            height: 10.0,
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                plantProvider
+                                                    .getBasketModelList[index]
+                                                    .name,
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20.0,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                plantProvider
+                                                    .getBasketModelList[index]
+                                                    .genus,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 16.0),
+                                              ),
+                                              Text(
+                                                'Planted on :  ${plantProvider.getBasketModelList[index].date}',
+                                                style: TextStyle(
+                                                    color: Colors.greenAccent,
+                                                    fontSize: 14.0),
+                                              ),
+                                            ],
                                           ),
-                                          Text(
-                                              plantProvider
-                                                  .getBasketModelList[index]
-                                                  .quantity
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold)),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 40.0,
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    bottom: 0.0,
+                                                  ),
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                      Icons.close,
+                                                      color: Colors.white,
+                                                    ),
+                                                    onPressed: () {
+                                                      plantProvider
+                                                          .deleteGardenPlant(
+                                                              index);
+                                                    },
+                                                  ),
+                                                ),
+                                                Text('Qty',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15.0,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                SizedBox(
+                                                  height: 10.0,
+                                                ),
+                                                Text(
+                                                    plantProvider
+                                                        .getBasketModelList[
+                                                            index]
+                                                        .quantity
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      );
+                            );
+                          });
                     })
               ],
             )

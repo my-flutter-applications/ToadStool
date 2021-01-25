@@ -73,32 +73,22 @@ class _BasketSinglePlantState extends State<BasketSinglePlant> {
                         .collection('GardenPlants')
                         .doc(user.uid)
                         .set({
-                      // "Plant Name": plantProvider.getBasketModelList[index].name,
-                      // "Plant Genus":
-                      //     plantProvider.getBasketModelList[index].genus,
-                      // "Plant Quantity":
-                      //     plantProvider.getBasketModelList[index].quantity,
-                      // "UserName": e.userName,
-                      // "UserEmail": e.userEmail,
-                      // "UserAddress": e.userAddress,
-                      // "userUid": user.uid,
-                      // 'plantedDate': getCurrentDate()
                       'Plant': plantProvider.getBasketModelList
                           .map((e) => {
                                 'PlantName': e.name,
                                 'PlantGenus': e.genus,
                                 'PlantQuantity': e.quantity,
                                 'PlantDate': getCurrentDate(),
+                                'PlantImage': e.image,
                               })
                           .toList(),
                       "UserName": e.userName,
                       "UserEmail": e.userEmail,
                       "UserAddress": e.userAddress,
                       "userUid": user.uid,
-                    });
-                    // plantProvider.clearGardenPlant();
+                    }, SetOptions(merge: true));
                   } else {
-                    print('No Item');
+                    print('No list');
                   }
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => Garden(),
@@ -107,19 +97,6 @@ class _BasketSinglePlantState extends State<BasketSinglePlant> {
       }).toList(),
     );
   }
-
-  // FirebaseFirestore.instance
-  //     .collection('GardenPlants')
-  //     .doc(user.uid)
-  //     .set({
-  //       "Plant Name" : plantProvider.getBasketModelList[index].name,
-  //       "Plant Genus" : plantProvider.getBasketModelList[index].genus,
-  //       "Plant Quantity" : plantProvider.getBasketModelList[index].quantity,
-  //       "UserName" :
-  //       "UserEmail" :
-  //       "UserAddress" :
-  //       "userUid" :
-  //     });
 
   Widget build(BuildContext context) {
     user = FirebaseAuth.instance.currentUser;
@@ -207,50 +184,6 @@ class _BasketSinglePlantState extends State<BasketSinglePlant> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 5.0, right: 5.0),
-            // child:
-            // Column(
-            // children: [
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 50.0, bottom: 10.0),
-            //   child: IconButton(
-            //     icon: Icon(
-            //       Icons.close,
-            //       color: Colors.white,
-            //     ),
-            //     onPressed: () {
-            //        plantProvider
-            //                                     .deleteGardenPlant(index);
-            //     },
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 42,
-            //   width: 95,
-            //   child: MyButton(
-            //     name: 'Plant',
-            //     onPressed: () {
-            //       plantProvider.getBasketData(
-            //         image: widget.image,
-            //         name: widget.name,
-            //         genus: widget.genus,
-            //         quantity: count,
-            //         date: getCurrentDate(),
-            //       );
-            //       Navigator.of(context).push(MaterialPageRoute(
-            //         builder: (context) => Garden(),
-            //       ));
-            //     },
-            //   ),
-            // ),
-            // ],
-            // ),
-            // child: ListView.builder(
-            //     shrinkWrap: true,
-            //     physics: NeverScrollableScrollPhysics(),
-            //     itemCount: plantProvider.getBasketModelListLength,
-            //     itemBuilder: (context, index) {
-            //       return _buildButton();
-            //     }),
             child: _buildButton(),
           ),
         ],

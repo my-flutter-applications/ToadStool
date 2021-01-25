@@ -21,13 +21,10 @@ class MyTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       enabled: enableEdit,
-      // focusNode: FocusNode(),
-      // enableInteractiveSelection: false,
       style: TextStyle(
         color: Theme.of(context).primaryColor,
       ),
       onChanged: onChanged,
-      // validator: validator,
       controller: controller,
       decoration: InputDecoration(
         prefixIcon: Icon(
@@ -35,16 +32,7 @@ class MyTextFormField extends StatelessWidget {
           color: Colors.grey.shade400,
         ),
         hintText: name,
-        // prefix: Padding(
-        //   padding: EdgeInsets.only(top: 0), // add padding to adjust icon
-        //   child: Icon(
-        //     Icons.person,
-        //     color: Colors.white,
-        //   ),
-        // ),
-        hintStyle: TextStyle(
-            // color: Theme.of(context).primaryColorDark,
-            color: Colors.grey.shade400),
+        hintStyle: TextStyle(color: Colors.grey.shade400),
         disabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: Colors.white10,

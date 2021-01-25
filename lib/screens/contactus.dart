@@ -80,7 +80,7 @@ class _ContactUsState extends State<ContactUs> {
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Theme.of(context).canvasColor,
-          title: IconButton(
+          leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
               color: Colors.white,

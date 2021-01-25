@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:toadstool/screens/homepage.dart';
 import 'package:toadstool/widgets/changescreen.dart';
 import 'package:toadstool/widgets/mybutton.dart';
 import 'package:toadstool/widgets/mytextformfield.dart';
@@ -49,59 +50,61 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 //   }
 // }
 
-void validation() async {
-  if (email.text.isEmpty && password.text.isEmpty) {
-    _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Text('Both Fields Are Empty'),
-      ),
-    );
-  } else if (email.text.isEmpty) {
-    _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Text('Email is Empty'),
-      ),
-    );
-  } else if (!regExp.hasMatch(email.text)) {
-    _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Text('Please Try a Valid Email'),
-      ),
-    );
-  } else if (password.text.isEmpty) {
-    _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Text("Password Is Empty"),
-      ),
-    );
-  } else if (password.text.length < 8) {
-    _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Text("Plase Try a Valid Password"),
-      ),
-    );
-  } else {
-    try {
-      UserCredential result = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: email.text, password: password.text);
-      print(result.user.uid);
-    } catch (e) {
-      // print(e.message.toString());
-
+class _LoginState extends State<Login> {
+  void validation() async {
+    if (email.text.isEmpty && password.text.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(
-          content: Text(
-            e.message,
-          ),
-          duration: Duration(seconds: 2),
+          content: Text('Both Fields Are Empty'),
         ),
       );
+    } else if (email.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('Email is Empty'),
+        ),
+      );
+    } else if (!regExp.hasMatch(email.text)) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('Please Try a Valid Email'),
+        ),
+      );
+    } else if (password.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Password Is Empty"),
+        ),
+      );
+    } else if (password.text.length < 8) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Plase Try a Valid Password"),
+        ),
+      );
+    } else {
+      try {
+        UserCredential result = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: email.text, password: password.text);
+        print(result.user.uid);
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (ctx) => HomePage()));
+      } catch (e) {
+        // print(e.message.toString());
+
+        _scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            content: Text(
+              e.message,
+            ),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
     }
   }
-}
 
-class _LoginState extends State<Login> {
   Widget _buildAllPart() {
     return Container(
       child: Column(

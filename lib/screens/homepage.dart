@@ -8,9 +8,12 @@ import 'package:provider/provider.dart';
 import 'package:toadstool/model/usermodel.dart';
 import 'package:toadstool/provider/category_provider.dart';
 import 'package:toadstool/provider/plant_provider.dart';
+import 'package:toadstool/screens/aboutus.dart';
 import 'package:toadstool/screens/contactus.dart';
 import 'package:toadstool/screens/detailsscreen.dart';
+import 'package:toadstool/screens/gardenscreen.dart';
 import 'package:toadstool/screens/listplant.dart';
+import 'package:toadstool/screens/login.dart';
 import 'package:toadstool/screens/profilescreen.dart';
 import 'package:toadstool/screens/search_plant.dart';
 // import 'package:toadstool/screens/search.dart';
@@ -196,6 +199,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Login()));
+  }
+
   Widget _buildMyDrawer() {
     return Drawer(
       child: ListView(
@@ -212,6 +221,8 @@ class _HomePageState extends State<HomePage> {
                 contactusColor = false;
                 aboutColor = false;
               });
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => HomePage()));
             },
             selectedTileColor: Theme.of(context).primaryColorDark,
             leading: Icon(
@@ -225,27 +236,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           ListTile(
-            selected: basketColor,
-            onTap: () {
-              setState(() {
-                basketColor = true;
-                homeColor = false;
-                mygardenColor = false;
-                profileColor = false;
-                contactusColor = false;
-                aboutColor = false;
-              });
-            },
-            selectedTileColor: Theme.of(context).primaryColorDark,
-            leading: Icon(Icons.shopping_bag_outlined,
-                size: 28.0, color: Theme.of(context).primaryColor),
-            title: Text('Basket',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.white,
-                )),
-          ),
-          ListTile(
             selected: mygardenColor,
             onTap: () {
               setState(() {
@@ -256,6 +246,8 @@ class _HomePageState extends State<HomePage> {
                 contactusColor = false;
                 aboutColor = false;
               });
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Garden()));
             },
             selectedTileColor: Theme.of(context).primaryColorDark,
             leading: Icon(Icons.favorite_border_outlined,
@@ -320,6 +312,8 @@ class _HomePageState extends State<HomePage> {
                 contactusColor = false;
                 homeColor = false;
               });
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => AboutUs()));
             },
             selectedTileColor: Theme.of(context).primaryColorDark,
             leading: Icon(Icons.info,
@@ -331,7 +325,7 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             onTap: () {
-              FirebaseAuth.instance.signOut();
+              _signOut();
             },
             leading: Icon(Icons.home_outlined,
                 size: 28.0, color: Theme.of(context).primaryColor),
@@ -673,35 +667,6 @@ class _HomePageState extends State<HomePage> {
             _key.currentState.openDrawer();
           },
         ),
-        actions: [
-          // IconButton(
-          // icon: Icon(
-          //   Icons.search,
-          //   color: Colors.white,
-          // ),
-          // onPressed: () {
-          // showSearch(context: context, delegate: Search());
-          // plantProvider.getSearchList(list: snapShot);
-          // Navigator.of(context).push(MaterialPageRoute(
-          // builder: (context) => ListPlant(
-          //       name: 'Search',
-          //       snapShot: search,
-          //     )));
-
-          //   showSearch(context: context, delegate: SearchPlant());
-          //   ListPlant(
-          //     isCategory: false,
-          //     name: 'Search',
-          //     snapShot: all,
-          //   );
-          // }),
-          IconButton(
-              icon: Icon(
-                Icons.shopping_bag_outlined,
-                color: Colors.white,
-              ),
-              onPressed: () {}),
-        ],
         title: Text('ToadStool',
             style: TextStyle(
                 color: Colors.white,
@@ -728,37 +693,6 @@ class _HomePageState extends State<HomePage> {
               ),
               Column(
                 children: [
-                  // Container(
-                  //   height: MediaQuery.of(context).size.height * 0.1,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.only(top: 10.0),
-                  //     child: TextFormField(
-                  //         decoration: InputDecoration(
-                  //       prefixIcon: IconButton(
-                  //         icon: Icon(
-                  //           Icons.search,
-                  //         ),
-                  //         color: Colors.white,
-                  //         onPressed: () {
-                  //           showSearch(
-                  //               context: context, delegate: SearchPlant());
-                  //         },
-                  //       ),
-                  //       fillColor: Theme.of(context).primaryColorDark,
-                  //       filled: true,
-                  //       hintText: 'Search',
-                  //       hintStyle: TextStyle(color: Colors.white),
-                  //       enabledBorder: OutlineInputBorder(
-                  //         borderSide: BorderSide(color: Colors.transparent),
-                  //         borderRadius: BorderRadius.circular(30.0),
-                  //       ),
-                  //       focusedBorder: OutlineInputBorder(
-                  //         borderSide: BorderSide(color: Colors.transparent),
-                  //         borderRadius: BorderRadius.circular(30.0),
-                  //       ),
-                  //     )),
-                  //   ),
-                  // ),
                   _buildCategory(),
                   _buildFeatured(),
                   _buildPopular(),

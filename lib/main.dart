@@ -43,10 +43,6 @@ class MyApp extends StatelessWidget {
           accentColor: Color(0xffff5f6d),
           canvasColor: Color(0xff282828),
           primaryColorDark: Color(0xff3f3f3f),
-
-          // splashColor: Color(0xff2c2c2c),
-
-          // iconTheme: IconThemeData(color: Color(0xff5f5f5f)),
           fontFamily: 'Montserrat',
         ),
         home: StreamBuilder(
@@ -59,7 +55,6 @@ class MyApp extends StatelessWidget {
             }
           },
         ),
-        // home: ContactUs(),
       ),
     );
   }

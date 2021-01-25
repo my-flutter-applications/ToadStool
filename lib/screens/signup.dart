@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:toadstool/screens/homepage.dart';
 import 'package:toadstool/widgets/changescreen.dart';
 import 'package:toadstool/widgets/mytextformfield.dart';
 import 'package:toadstool/widgets/passwordtextformfield.dart';
@@ -129,6 +130,8 @@ class _SignUpState extends State<SignUp> {
           'UserAddress': address.text,
           'UserNumber': phoneNumber.text,
         });
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()));
       } catch (e) {
         // print(e.message.toString());
         _scaffoldKey.currentState.showSnackBar(
